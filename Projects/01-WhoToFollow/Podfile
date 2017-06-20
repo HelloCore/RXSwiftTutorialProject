@@ -9,7 +9,8 @@ target 'WhoToFollow' do
   pod 'RxSwift'
   pod 'RxCocoa'
   pod 'Moya-ObjectMapper/RxSwift'
-
+  pod 'AlamofireImage'
+  pod 'SVProgressHUD'
   # Pods for WhoToFollow
 
   target 'WhoToFollowTests' do
@@ -17,7 +18,7 @@ target 'WhoToFollow' do
     # Pods for testing
 
     pod 'Quick'
-    pod 'Nimble'
+	pod 'Nimble'
   end
 
   target 'WhoToFollowUITests' do
