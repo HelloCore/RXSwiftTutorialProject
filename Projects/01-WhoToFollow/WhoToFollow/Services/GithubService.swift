@@ -10,7 +10,9 @@ import Foundation
 import Moya
 
 enum GithubService {
+	
 	case getUser(offset: Int)
+	
 }
 
 extension GithubService: TargetType {

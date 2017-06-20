@@ -27,9 +27,13 @@ class ViewController: UIViewController {
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		
-		refreshBtn
-			.rx.tap
-			.asObservable()
+		let refreshControl = UIRefreshControl()
+		tableView.addSubview(refreshControl)
+		
+		Observable.merge([
+			refreshBtn.rx.tap.asObservable(),
+			refreshControl.rx.controlEvent(.valueChanged).asObservable()
+			])
 			.map { (_) -> [GithubUser] in
 				return []
 			}
@@ -79,6 +83,8 @@ class ViewController: UIViewController {
 			.subscribe(onNext: { [weak self] (data) in
 				if data.count == 0 {
 					self?.fetchingTrigger.onNext(())
+				}else{
+					refreshControl.endRefreshing()
 				}
 				self?.tableView.reloadData()
 			})
