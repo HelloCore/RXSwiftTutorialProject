@@ -37,14 +37,17 @@ let fObservable = pSubject
 		return Observable
 			.create({ (observer) -> Disposable in
 				// จำลอง sync async call
+				increseExecCount()
 				DispatchQueue.global().async {
 					observer.onNext("\(value)] [1st time")
 				}
 				
+				increseExecCount()
 				DispatchQueue.global().asyncAfter(deadline: .now() + .seconds(1), execute: {
 					observer.onNext("\(value)] [2nd time")
 				})
 				
+				increseExecCount()
 				DispatchQueue.global().asyncAfter(deadline: .now() + .seconds(2), execute: {
 					observer.onNext("\(value)] [3rd time")
 				})
@@ -60,6 +63,8 @@ let subscribe = fObservable
 	.subscribe(onNext: { (result) in
 //		print("\(dateFormatter.string(from: Date())) [\(result)] on \(Thread.current)")
 		print("\(dateFormatter.string(from: Date())) [\(result)]")
+		
+		popExecCount()
 	})
 
 

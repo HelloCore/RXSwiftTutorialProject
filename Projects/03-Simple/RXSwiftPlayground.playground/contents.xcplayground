@@ -9,6 +9,6 @@
         <page name='06-Combine-Operator'/>
         <page name='07-Quiz'/>
         <page name='08-FlatMap-FlatMapLatest'/>
-        <page name='Break--Moya-ObjectMapper'/>
+        <page name='09-Moya-ObjectMapper-RX'/>
     </pages>
 </playground>
