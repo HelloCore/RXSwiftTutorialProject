@@ -20,6 +20,13 @@ class ViewController: UIViewController {
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
+		
+		Observable<Int>.create { (observer) -> Disposable in
+			
+			observer.onNext(0)
+			
+			return Disposables.create()
+		}
 		// Do any additional setup after loading the view, typically from a nib.
 	}
 
