@@ -37,8 +37,34 @@ class MyViewController05: UIViewController {
 	let button = UIButton(type: UIButtonType.roundedRect)
 	
 	func initialSubScription() {
-		
-	}
+		let validUsername = textField
+            .rx
+            .text
+            .orEmpty
+            .asObservable()
+            .map { (username) -> Bool in
+                return username.characters.count >= 4
+            }
+        
+        let validPassword = textField2
+            .rx
+            .text
+            .orEmpty
+            .asObservable()
+            .map { (password) -> Bool in
+                return password.characters.count >= 4
+            }
+        
+        
+        let combineStream = Observable.combineLatest(
+            validUsername,
+            validPassword) { ($0, $1) }
+            .map { (input) -> Bool in
+                return input.0 && input.1
+            }
+            .bind(to: button.rx.isEnabled)
+        
+    }
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()

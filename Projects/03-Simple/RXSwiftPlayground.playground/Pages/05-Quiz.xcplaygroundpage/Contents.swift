@@ -35,7 +35,15 @@ class MyViewController05: UIViewController {
 	let button = UIButton(type: UIButtonType.roundedRect)
 	
 	func initialSubScription() {
-		
+        textField
+            .rx
+            .text
+            .orEmpty
+            .asObservable()
+            .map { (username) -> Bool in
+                return username.characters.count >= 4
+            }
+            .bind(to: button.rx.isEnabled)
 	}
 	
 	override func viewDidLoad() {
