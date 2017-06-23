@@ -17,24 +17,33 @@ class ViewController: UIViewController {
 	@IBOutlet weak var addButton: UIBarButtonItem!
 	
 	let disposeBag = DisposeBag()
-    var dataSource = Variable<[TodoModel]>([TodoModel(title: "Hello", isCompleted: false)])
+    var dataSource = Variable<[TodoModel]>([])
     
-	
 	override func viewDidLoad() {
 		super.viewDidLoad()
-		
-        dataSource.asObservable().subscribe(onNext: { [weak self] (_) in
-            self?.tableView.reloadData()
-        }).addDisposableTo(disposeBag)
-      
+        
+        tableView.rowHeight = UITableViewAutomaticDimension;
+        tableView.estimatedRowHeight = 44
+        initialSubScription()
+    }
+    
+    func initialSubScription() {
+        dataSource
+            .asObservable()
+            .subscribe(onNext: { [weak self] (_) in
+                self?.tableView.reloadData()
+            }).addDisposableTo(disposeBag)
         
         addButton
             .rx
             .tap
             .asObservable()
-            .map { () -> TodoModel in
-                return TodoModel(title: "Task",isCompleted: false)
-            }
+            .flatMapLatest({ [weak self] (_) -> Observable<TodoModel> in
+                let storyboard = UIStoryboard(name: "Main", bundle: Bundle(for: AlertViewController.self))
+                let vc = storyboard.instantiateViewController(withIdentifier: "AlertViewController") as! AlertViewController
+                self?.present(vc, animated: true)
+                return vc.onAddTodoModel
+            })
             .withLatestFrom(dataSource.asObservable()) { (item, oldDataSource) -> [TodoModel] in
                 var newSource = oldDataSource
                 newSource.append(item)
@@ -42,18 +51,12 @@ class ViewController: UIViewController {
             }
             .bind(to: dataSource)
             .addDisposableTo(disposeBag)
-        
-        
-
-		// Do any additional setup after loading the view, typically from a nib.
-	}
-
+    }
+    
 	override func didReceiveMemoryWarning() {
 		super.didReceiveMemoryWarning()
 		// Dispose of any resources that can be recreated.
 	}
-
-
 }
 
 extension ViewController: UITableViewDataSource {
@@ -70,3 +73,5 @@ extension ViewController: UITableViewDataSource {
 		return cell
 	}
 }
+
+
