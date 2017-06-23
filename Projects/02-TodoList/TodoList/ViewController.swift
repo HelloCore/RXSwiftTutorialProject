@@ -17,16 +17,34 @@ class ViewController: UIViewController {
 	@IBOutlet weak var addButton: UIBarButtonItem!
 	
 	let disposeBag = DisposeBag()
+    var dataSource = Variable<[TodoModel]>([TodoModel(title: "Hello", isCompleted: false)])
+    
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		
-		Observable<Int>.create { (observer) -> Disposable in
-			
-			observer.onNext(0)
-			
-			return Disposables.create()
-		}
+        dataSource.asObservable().subscribe(onNext: { [weak self] (_) in
+            self?.tableView.reloadData()
+        }).addDisposableTo(disposeBag)
+      
+        
+        addButton
+            .rx
+            .tap
+            .asObservable()
+            .map { () -> TodoModel in
+                return TodoModel(title: "Task",isCompleted: false)
+            }
+            .withLatestFrom(dataSource.asObservable()) { (item, oldDataSource) -> [TodoModel] in
+                var newSource = oldDataSource
+                newSource.append(item)
+                return newSource
+            }
+            .bind(to: dataSource)
+            .addDisposableTo(disposeBag)
+        
+        
+
 		// Do any additional setup after loading the view, typically from a nib.
 	}
 
@@ -41,13 +59,14 @@ class ViewController: UIViewController {
 extension ViewController: UITableViewDataSource {
 	
 	func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-		return 0
+		return dataSource.value.count
 	}
 	
 	
 	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 		let cell = UITableViewCell(style: .default, reuseIdentifier: "CELL")
-		
+        let todoModel = dataSource.value[indexPath.row]
+        cell.textLabel?.text = todoModel.title
 		return cell
 	}
 }
