@@ -82,6 +82,8 @@ DispatchQueue.global().asyncAfter(deadline: .now() + .seconds(2), execute: {
 /*:
 >	จะสังเกตได้ว่า fObservable จะได้รับค่าช้ากว่า pSubject 1 วินาที
 	มักใช้ในกรณี Call Service หรือ Event ที่เป็น Async
+
+![อธิบายเป็นภาพได้ตามนี้](FlatMapVSFlatMapLatest.png)
 */
 
 PlaygroundSupport.PlaygroundPage.current.needsIndefiniteExecution = true
