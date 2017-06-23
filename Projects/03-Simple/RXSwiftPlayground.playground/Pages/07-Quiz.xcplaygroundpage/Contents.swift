@@ -37,7 +37,46 @@ class MyViewController05: UIViewController {
 	let button = UIButton(type: UIButtonType.roundedRect)
 	
 	func initialSubScription() {
-		
+       
+        
+        let username = textField
+            .rx
+            .text
+            .orEmpty
+            .asObservable()
+            .map{ (strName) -> Bool in
+                return strName.characters.count > 4
+            }
+        
+        
+//        username.subscribe(onNext: { (<#Bool#>) in
+//            <#code#>
+//        })
+        
+        let password = textField2
+            .rx
+            .text
+            .orEmpty
+            .asObservable()
+            .map{ (strPass) -> Bool in
+                return strPass.characters.count > 4
+        }
+        
+        Observable.combineLatest(
+            username,password) { (validUsername, validPassword) -> Bool in
+                    return validUsername && validPassword
+            }.bind(to: button.rx.isEnabled)
+        
+//        let combineStream = Observable.combineLatest(
+//            textField.orEmpty.asObservable(),
+//            self.textField2.rx.text.orEmpty.asObservable()
+//        ) { (sub1, sub2) -> (subject1: Int, subject2: Int) in
+//            return (subject1: sub1, subject2: sub2)
+//        }
+//        
+//        let combineSubscribe = combineStream.subscribe( onNext: { (value) in
+//            print("value subject1:\(value.subject1) subject2:\(value.subject2)")
+//        })
 	}
 	
 	override func viewDidLoad() {

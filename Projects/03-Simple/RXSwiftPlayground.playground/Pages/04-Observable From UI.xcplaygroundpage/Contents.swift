@@ -29,6 +29,8 @@ class MyViewController: UIViewController {
 			.asObservable()
 			.subscribe(onNext: { (str) in
 				print("TextField1 str: [\(str)]")
+                print("TextField1 re text: [\(self.textField.rx.text)]")
+
 			})
 			.addDisposableTo(disposeBag)
 		

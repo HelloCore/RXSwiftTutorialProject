@@ -35,6 +35,16 @@ class MyViewController05: UIViewController {
 	let button = UIButton(type: UIButtonType.roundedRect)
 	
 	func initialSubScription() {
+        textField
+            .rx //** <--- สำคัญมาก
+            .text
+            .orEmpty
+            .asObservable()
+            .map{ (str) -> Bool in
+                return str.characters.count >= 4
+            }.bind(to: button.rx.isEnabled)
+            .addDisposableTo(disposeBag)
+
 		
 	}
 	
@@ -63,6 +73,7 @@ class MyViewController05: UIViewController {
 			])
 		
 		self.initialSubScription()
+        button.rx
 	}
 }
 
