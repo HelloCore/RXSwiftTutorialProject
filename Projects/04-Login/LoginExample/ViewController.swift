@@ -15,7 +15,7 @@ import Moya_ObjectMapper
 
 class ViewController: UIViewController {
 
-	@IBOutlet weak var usernameTextFIeld: UITextField!
+	@IBOutlet weak var usernameTextField: UITextField!
 	@IBOutlet weak var passwordTextField: UITextField!
 	@IBOutlet weak var loginButton: UIButton!
 	
@@ -26,7 +26,7 @@ class ViewController: UIViewController {
 	override func viewDidLoad() {
 		super.viewDidLoad()
 	
-		let isUsernameValid = usernameTextFIeld
+		let isUsernameValid = usernameTextField
 			.rx.text.orEmpty
 			.asObservable()
 			.map { (username) -> Bool in
@@ -51,7 +51,7 @@ class ViewController: UIViewController {
 		
 		let loginService = Observable
 			.combineLatest(
-				usernameTextFIeld.rx.text.orEmpty.asObservable(),
+				usernameTextField.rx.text.orEmpty.asObservable(),
 				passwordTextField.rx.text.orEmpty.asObservable()
 			) { (usr, pwd) -> LoginService in
 				return LoginService.login(username: usr, password: pwd)

@@ -80,9 +80,9 @@
                     </view>
                     <connections>
                         <outlet property="loginButton" destination="yVJ-gG-2cZ" id="310-aq-nHU"/>
-                        <outlet property="passwordTextField" destination="tc9-fb-XE0" id="Oh3-g3-mfc"/>
+                        <outlet property="passwordTextField" destination="tc9-fb-XE0" id="7ID-TM-dvW"/>
                         <outlet property="tapGesture" destination="UlF-Kh-nvo" id="DXh-Yn-D0k"/>
-                        <outlet property="usernameTextField" destination="Rbe-GE-uw7" id="n6n-8a-WfQ"/>
+                        <outlet property="usernameTextFIeld" destination="Rbe-GE-uw7" id="Xn3-Sg-wfa"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
