@@ -9,10 +9,19 @@
 import Foundation
 import ObjectMapper
 
+enum ResponseStatus: String {
+	case success = "success"
+	case failure = "fail"
+}
+
 class BaseResponse: Mappable {
 	
 	var status: String?
 	var message: String?
+	
+	var responseStatus: ResponseStatus {
+		return ResponseStatus(rawValue: status ?? "")  ?? .failure
+	}
 	
 	required init?(map: Map) {
 		
@@ -23,4 +32,13 @@ class BaseResponse: Mappable {
 		message <- map["message"]
 	}
 	
+}
+
+extension Error {
+	var json: [String: Any] {
+		return [
+			"status": ResponseStatus.failure.rawValue,
+			"message": self.localizedDescription
+		] as [String: Any]
+	}
 }
