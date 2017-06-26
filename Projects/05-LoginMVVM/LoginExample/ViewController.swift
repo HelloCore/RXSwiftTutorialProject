@@ -28,6 +28,9 @@ class ViewController: UIViewController {
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		
+		// Username: hellocore
+		// Password: anything
+		
 		let input = ViewModelInputs(usernameText: usernameTextFIeld.rx.text.orEmpty.asObservable(),
 		                            passwordText: passwordTextField.rx.text.orEmpty.asObservable(),
 		                            loginBtnTap: loginButton.rx.tap.asObservable(),
