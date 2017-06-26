@@ -33,6 +33,12 @@ let subscribe2 = bSubject.subscribe(onNext: { (value) in
 
 bSubject.onNext(2)
 
+do {
+	try print("bSubject.value is [\(bSubject.value())]")
+}catch {
+	print("Found Error: \(error.localizedDescription)")
+}
+
 subscribe1.dispose()
 subscribe2.dispose()
 
@@ -52,17 +58,25 @@ print("-------------[Example of Variable]--------------\n")
 
 let vSubject = Variable<Int>(0)
 
-let vSubscribe = vSubject.asObservable()
+let vSubscribe1 = vSubject.asObservable()
 	.subscribe(onNext: { (value) in
-		print("vSubscribe onNext [\(value)]")
+		print("vSubscribe1 onNext [\(value)]")
+	})
+
+vSubject.value = 1
+
+let vSubscribe2 = vSubject.asObservable()
+	.subscribe(onNext: { (value) in
+		print("vSubscribe2 onNext [\(value)]")
 	})
 
 
-vSubject.value = 1
-vSubject.value = 2
 vSubject.value = 2
 
-vSubscribe.dispose()
+print("value of vSubject [\(vSubject.value)]")
+
+vSubscribe1.dispose()
+vSubscribe2.dispose()
 print("\n-------------------------------------------------")
 
 /*:
@@ -70,7 +84,7 @@ print("\n-------------------------------------------------")
   ตัวมันก็จะส่งค่านั้นไปให้ Observer อยู่ดี
 
 -------------------------------------------------
-##### `Published Subject`
+##### `Publish Subject`
 เป็น Subject ที่ไม่เก็บค่าใดเลย
 หมายความว่าจะมีเฉพาะ Observer ที่ Subscribe ตัวมันเท่านั้น ที่จะได้รับค่าไป
 */
@@ -97,10 +111,42 @@ pSubject.onNext(2)
 
 print("\n-------------------------------------------------")
 
+pSubscribe1.dispose()
+pSubscribe2.dispose()
 /*:
 > จากตัวอย่างด้านบน สังเกตได้ว่า pSubscribe1 จะไม่ได้รับค่า 0 เนื่องจาก
   ณ เวลาที่ pSubject ส่งค่า 0 ไป ตัว pSubscribe1 ยังไม่ได้ทำการ subscribe
 
 -------------------------------------------------
+
+##### `Replay Subject`
+เป็น Subject ที่เก็บทุกค่า และเมื่อมี Observer มา Subscribe ใหม่จะได้รับค่าเก่าทั้งหมดไปด้วย
 */
+
+print("-----------[Example of ReplaySubject]------------\n")
+
+let rSubject = ReplaySubject<Int>.create(bufferSize: 3)
+//let rSubject = ReplaySubject<Int>.createUnbounded()
+
+rSubject.onNext(0)
+rSubject.onNext(1)
+rSubject.onNext(2)
+
+let rSubscribe1 = rSubject.subscribe(onNext: { (value) in
+		print("rSubscribe1 onNext [\(value)]")
+	})
+
+rSubject.onNext(3)
+
+let rSubscribe2 = rSubject.subscribe(onNext: { (value) in
+	print("rSubscribe2 onNext [\(value)]")
+})
+
+print("\n-------------------------------------------------")
+
+
+rSubscribe1.dispose()
+rSubscribe2.dispose()
+
+
 //: [Next](@next)

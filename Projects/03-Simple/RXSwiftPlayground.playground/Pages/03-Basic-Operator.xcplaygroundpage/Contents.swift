@@ -4,7 +4,7 @@ import UIKit
 import RxSwift
 
 
-let firstStream = Observable<Int>.from([0,1,2,3])
+let myStream = BehaviorSubject<Int>(value: 0)
 
 /*:
 ## `Map`
@@ -14,15 +14,22 @@ let firstStream = Observable<Int>.from([0,1,2,3])
 */
 print("---------------------[Example of Map]-----------------\n")
 
-firstStream
+
+let mapSubscribe = myStream
 	.map { (value) -> String in
+		// Change Int to String
 		return "My Number is \(value)"
 	}
 	.subscribe(onNext: { (value) in
 		print("On Next: [ \(value) ]")
 	})
 
+myStream.onNext(1)
+myStream.onNext(2)
+
 print("\n------------------------------------------------------")
+
+mapSubscribe.dispose()
 /*:
 ------------------------------------------------------
 ## `Filter`
@@ -31,14 +38,94 @@ print("\n------------------------------------------------------")
 ตัวอย่างการกรองค่าเฉพาะ value > 2
 */
 
+myStream.onNext(0)
+
 print("-------------------[Example of Filter]----------------\n")
-firstStream
+
+let filterSubScribe = myStream
 	.filter { (value) -> Bool in
+		// ทำงานต่อเฉพาะค่าที่มากกว่า 2
 		return value > 2
+	}
+	.map { (value) -> String in
+		// Change Int to String
+		return "My Number is \(value)"
 	}
 	.subscribe(onNext: { (value) in
 		print("On Next: [\(value)]")
 	})
 
+myStream.onNext(1)
+myStream.onNext(2)
+myStream.onNext(3)
+myStream.onNext(4)
+
 print("\n------------------------------------------------------")
+
+filterSubScribe.dispose()
+
+myStream.onNext(0)
+
+/*:
+------------------------------------------------------
+## `Merge`
+
+*/
+myStream.onNext(0)
+
+print("-------------------[Example of Merge]----------------\n")
+
+let secondStream = BehaviorSubject<Int>(value: 100)
+
+let mergedSubscribe = Observable.merge([
+		myStream.asObserver(),
+		secondStream.asObserver()
+	]).subscribe(onNext: { (value) in
+		print("On Next: [\(value)]")
+	})
+
+myStream.onNext(1)
+secondStream.onNext(99)
+secondStream.onNext(98)
+secondStream.onNext(97)
+myStream.onNext(2)
+myStream.onNext(3)
+
+
+print("\n------------------------------------------------------")
+
+mergedSubscribe.dispose()
+
+
+
+/*:
+------------------------------------------------------
+## `CombineLatest`
+
+*/
+
+myStream.onNext(0)
+
+print("----------------[Example of CombineLatest]------------\n")
+
+let messageStream = BehaviorSubject<String>(value: "A")
+
+let combineSubscribe = Observable.combineLatest(myStream, messageStream) { (valueOfMyStream, valueOfMessageStream) -> String in
+		return " MyStream \(valueOfMyStream) MessageStream \(valueOfMessageStream) "
+	}
+	.subscribe(onNext: { (value) in
+		print("On Next: [\(value)]")
+	})
+
+messageStream.onNext("BB")
+myStream.onNext(1)
+myStream.onNext(2)
+myStream.onNext(3)
+messageStream.onNext("CC")
+myStream.onNext(4)
+
+print("\n------------------------------------------------------")
+
+combineSubscribe.dispose()
+
 //: [Next](@next)
