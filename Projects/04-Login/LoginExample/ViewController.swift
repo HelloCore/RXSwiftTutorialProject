@@ -25,6 +25,9 @@ class ViewController: UIViewController {
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
+		
+		// Username: hellocore
+		// Password: anything
 	
 		let isUsernameValid = usernameTextField
 			.rx.text.orEmpty

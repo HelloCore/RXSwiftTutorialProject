@@ -36,8 +36,14 @@ extension LoginService: TargetType {
 	}
 	
 	var sampleData: Data {
-		return StubFile.commonFailure.data
-//		return StubFile.loginSuccess.data
+		switch self {
+		case let .login(username, password):
+			if username == "hellocore" && password == "anything" {
+				return StubFile.loginSuccess.data
+			}else{
+				return StubFile.commonFailure.data
+			}
+		}
 	}
 	
 	var task: Task {
