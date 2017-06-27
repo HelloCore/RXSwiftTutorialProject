@@ -96,8 +96,6 @@ print("\n------------------------------------------------------")
 
 mergedSubscribe.dispose()
 
-
-
 /*:
 ------------------------------------------------------
 ## `CombineLatest`
@@ -127,5 +125,69 @@ myStream.onNext(4)
 print("\n------------------------------------------------------")
 
 combineSubscribe.dispose()
+
+/*:
+------------------------------------------------------
+## `WithLatestFrom`
+
+*/
+
+myStream.onNext(0)
+messageStream.onNext("A")
+
+print("----------------[Example of WithLatestFrom]------------\n")
+
+let withLatestStreamSubscribe = myStream.withLatestFrom(messageStream, resultSelector:
+	{ (valueOfMyStream, valueOfMessageStream) -> String in
+		return " MyStream \(valueOfMyStream) MessageStream \(valueOfMessageStream) "
+	})
+	.subscribe(onNext: { (value) in
+		print("On Next: [\(value)]")
+	})
+
+messageStream.onNext("BB")
+myStream.onNext(1)
+messageStream.onNext("CC")
+messageStream.onNext("DD")
+myStream.onNext(2)
+
+print("\n------------------------------------------------------")
+
+withLatestStreamSubscribe.dispose()
+
+
+/*:
+------------------------------------------------------
+## `StartWith`
+
+*/
+
+myStream.onNext(0)
+
+print("-----------------[Example of StartWith]---------------\n")
+
+let startWithSubScribe = myStream
+	.filter { (value) -> Bool in
+		// ทำงานต่อเฉพาะค่าที่มากกว่า 2
+		return value > 2
+	}
+	.startWith(0)
+	.map { (value) -> String in
+		// Change Int to String
+		return "My Number is \(value)"
+	}
+	.startWith("5555555")
+	.subscribe(onNext: { (value) in
+		print("On Next: [\(value)]")
+	})
+
+myStream.onNext(1)
+myStream.onNext(2)
+myStream.onNext(3)
+myStream.onNext(4)
+
+print("\n------------------------------------------------------")
+
+startWithSubScribe.dispose()
 
 //: [Next](@next)
