@@ -51,6 +51,21 @@ class ViewController: UIViewController {
             }
             .bind(to: dataSource)
             .addDisposableTo(disposeBag)
+        
+        // when user selected item at index todo title will be gray Label
+        tableView
+            .rx
+            .itemSelected
+            .asObservable()
+            .withLatestFrom(self.dataSource.asObservable(), resultSelector: { (indexPath, data) -> [TodoModel] in
+                var rowData = data
+                var model = rowData[indexPath.row]
+                model.isCompleted = !model.isCompleted
+                rowData[indexPath.row] = model
+                return rowData
+            })
+            .bind(to: dataSource)
+            .addDisposableTo(disposeBag)
     }
     
 	override func didReceiveMemoryWarning() {
@@ -65,11 +80,18 @@ extension ViewController: UITableViewDataSource {
 		return dataSource.value.count
 	}
 	
-	
 	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 		let cell = UITableViewCell(style: .default, reuseIdentifier: "CELL")
         let todoModel = dataSource.value[indexPath.row]
-        cell.textLabel?.text = todoModel.title
+        if todoModel.isCompleted {
+            let attributedString = NSAttributedString(string: todoModel.title,
+                                                      attributes: [NSForegroundColorAttributeName: UIColor.lightGray, NSStrikethroughStyleAttributeName: 1])
+            cell.textLabel?.attributedText = attributedString
+        }else {
+            cell.textLabel?.textColor = UIColor.black
+            cell.textLabel?.text = todoModel.title
+
+        }
 		return cell
 	}
 }
