@@ -52,7 +52,7 @@
                                         <rect key="frame" x="0.0" y="112.5" width="335" height="30"/>
                                         <nil key="textColor"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                        <textInputTraits key="textInputTraits"/>
+                                        <textInputTraits key="textInputTraits" secureTextEntry="YES"/>
                                     </textField>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yVJ-gG-2cZ">
                                         <rect key="frame" x="0.0" y="150" width="335" height="50"/>
@@ -82,7 +82,7 @@
                         <outlet property="loginButton" destination="yVJ-gG-2cZ" id="310-aq-nHU"/>
                         <outlet property="passwordTextField" destination="tc9-fb-XE0" id="7ID-TM-dvW"/>
                         <outlet property="tapGesture" destination="UlF-Kh-nvo" id="DXh-Yn-D0k"/>
-                        <outlet property="usernameTextFIeld" destination="Rbe-GE-uw7" id="Xn3-Sg-wfa"/>
+                        <outlet property="usernameTextField" destination="Rbe-GE-uw7" id="yqr-gg-BKu"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
