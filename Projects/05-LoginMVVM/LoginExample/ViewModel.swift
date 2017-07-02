@@ -20,7 +20,10 @@ struct ViewModelInputs {
 
 protocol ViewModelOutputs {
 	var isLoginEnabled: Observable<Bool>! { get }
-	var loginResponse: Observable<LoginResponse>! { get }
+	
+	var onLoginSuccess: Observable<LoginResponse>! { get }
+	var onRequestShowAlertMessage: Observable<String>! { get }
+	
 	var isLoading: Observable<Bool>! { get }
 	var onRequestEndEditing: Observable<Void>! { get }
 }
@@ -34,7 +37,10 @@ class ViewModel: ViewModelOutputs {
 	}
 	
 	var isLoginEnabled: Observable<Bool>!
-	var loginResponse: Observable<LoginResponse>!
+	
+	var onLoginSuccess: Observable<LoginResponse>!
+	var onRequestShowAlertMessage: Observable<String>!
+	
 	var onRequestEndEditing: Observable<Void>!
 	
 	private var loading = PublishSubject<Bool>()
@@ -67,7 +73,7 @@ class ViewModel: ViewModelOutputs {
 				return LoginService.login(username: usr, password: pwd)
 			}
 		
-		loginResponse = input.loginBtnTap
+		let loginResponse = input.loginBtnTap
 			.withLatestFrom(loginService)
 			.do(onNext: { [weak self] (_) in
 				self?.loading.onNext(true)
@@ -84,6 +90,13 @@ class ViewModel: ViewModelOutputs {
 			.do(onNext: { (_) in
 				self.loading.onNext(false)
 			})
+			.shareReplayLatestWhileConnected()
+		
+		onLoginSuccess = loginResponse.filter { $0.responseStatus == .success }
+		onRequestShowAlertMessage = loginResponse
+			.filter { $0.responseStatus != .success }
+			.map { $0.message ?? "Unknown Error" }
+		
 		
 		onRequestEndEditing = input.tapGesture				
 	}
