@@ -30,6 +30,7 @@ class ViewController: UIViewController {
 		
 		// Username: hellocore
 		// Password: anything
+        
 		
 		let input = ViewModelInputs(usernameText: usernameTextFIeld.rx.text.orEmpty.asObservable(),
 		                            passwordText: passwordTextField.rx.text.orEmpty.asObservable(),

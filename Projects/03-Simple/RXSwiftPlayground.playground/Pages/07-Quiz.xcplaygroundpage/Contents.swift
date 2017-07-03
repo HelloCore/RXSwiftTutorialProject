@@ -38,7 +38,7 @@ class MyViewController05: UIViewController {
 	
 	func initialSubScription() {
        
-        
+//        textField.rx.text.bindTo(textField2.rx.text)
         let username = textField
             .rx
             .text
