@@ -6,6 +6,7 @@ target 'TodoList' do
   use_frameworks!
   pod 'RxSwift'
   pod 'RxCocoa'
+  pod 'ObjectMapper', '~> 2.2'
   # Pods for TodoList
 
 end

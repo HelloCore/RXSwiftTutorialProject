@@ -41,47 +41,47 @@ class ViewController: UIViewController {
 			rowData.onNext([obj])
 		}
 		
-		
-		let onRefreshBtn = refreshBtn
-			.rx
-			.tap
-			.asObservable()
-			.startWith(())
-			.map { (_) -> [GithubUser] in
-				return []
-			}
-		
-		onRefreshBtn
-			.bind(to: rowData)
-			.addDisposableTo(disposeBag)
-		
-		Observable.merge([
-				loadMoreTrigger.asObserver(),
-				onRefreshBtn.map{ _ in return () }
-			])
-			.do(onNext: { (_) in
-				SVProgressHUD.show()
-			})
-			.withLatestFrom(rowData.asObserver())
-			.map({ (rowData) -> Int in
-				return rowData.count
-			})
-			.flatMap { (rowCount) -> Observable<[GithubUser]> in
-				let provider = RxMoyaProvider<GithubService>()
-				return provider.request(
-						GithubService.getUser(offset: rowCount)
-					).mapArray(GithubUser.self)
-			}.withLatestFrom(rowData.asObserver()) { (newData, oldData) -> [GithubUser] in
-				var result = oldData
-				result.append(contentsOf: newData)
-				return result
-			}
-			.do(onNext: { (_) in
-				SVProgressHUD.dismiss()
-			})
-			.bind(to: rowData)
-			.addDisposableTo(disposeBag)
-		
+//		
+//		let onRefreshBtn = refreshBtn
+//			.rx
+//			.tap
+//			.asObservable()
+//			.startWith(())
+//			.map { (_) -> [GithubUser] in
+//				return []
+//			}
+//		
+//		onRefreshBtn
+//			.bind(to: rowData)
+//			.addDisposableTo(disposeBag)
+//		
+//		Observable.merge([
+//				loadMoreTrigger.asObserver(),
+//				onRefreshBtn.map{ _ in return () }
+//			])
+//			.do(onNext: { (_) in
+//				SVProgressHUD.show()
+//			})
+//			.withLatestFrom(rowData.asObserver())
+//			.map({ (rowData) -> Int in
+//				return rowData.count
+//			})
+//			.flatMap { (rowCount) -> Observable<[GithubUser]> in
+//				let provider = RxMoyaProvider<GithubService>()
+//				return provider.request(
+//						GithubService.getUser(offset: rowCount)
+//					).mapArray(GithubUser.self)
+//			}.withLatestFrom(rowData.asObserver()) { (newData, oldData) -> [GithubUser] in
+//				var result = oldData
+//				result.append(contentsOf: newData)
+//				return result
+//			}
+//			.do(onNext: { (_) in
+//				SVProgressHUD.dismiss()
+//			})
+//			.bind(to: rowData)
+//			.addDisposableTo(disposeBag)
+//		
 		
 //		refreshBtn
 //			.rx

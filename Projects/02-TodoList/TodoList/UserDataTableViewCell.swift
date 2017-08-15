@@ -7,11 +7,22 @@
 //
 
 import UIKit
+import RxCocoa
+import RxSwift
 
 class UserDataTableViewCell: UITableViewCell {
     
     @IBOutlet weak var nameLabel: UILabel!
+    @IBOutlet weak var toDoBtn: UIButton!
+    @IBOutlet weak var checkBoxImage: UIImageView!
 
+    var disposeBag = DisposeBag()
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        disposeBag = DisposeBag()
+    }
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
@@ -22,5 +33,6 @@ class UserDataTableViewCell: UITableViewCell {
 
         // Configure the view for the selected state
     }
+    
     
 }

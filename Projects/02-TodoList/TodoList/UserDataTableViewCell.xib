@@ -6,6 +6,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12088"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -19,20 +20,38 @@
                 <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="v6Z-Vr-onb">
+                        <rect key="frame" x="28" y="11" width="20" height="20"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="20" id="OQy-Pq-pPr"/>
+                            <constraint firstAttribute="width" secondItem="v6Z-Vr-onb" secondAttribute="height" multiplier="1:1" id="yYI-vw-0ax"/>
+                        </constraints>
+                    </button>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="FEd-X4-KSF">
+                        <rect key="frame" x="28" y="11" width="20" height="20"/>
+                    </imageView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wzd-ZN-FJE">
-                        <rect key="frame" x="38" y="11" width="42" height="21"/>
+                        <rect key="frame" x="68" y="11" width="42" height="21"/>
                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
                 </subviews>
                 <constraints>
+                    <constraint firstItem="FEd-X4-KSF" firstAttribute="centerX" secondItem="v6Z-Vr-onb" secondAttribute="centerX" id="48z-Ah-rSo"/>
+                    <constraint firstItem="v6Z-Vr-onb" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" constant="20" id="6iS-UT-D1f"/>
+                    <constraint firstItem="FEd-X4-KSF" firstAttribute="height" secondItem="v6Z-Vr-onb" secondAttribute="height" id="HDW-mS-4Gc"/>
+                    <constraint firstItem="FEd-X4-KSF" firstAttribute="centerY" secondItem="v6Z-Vr-onb" secondAttribute="centerY" id="MCE-y7-yar"/>
+                    <constraint firstItem="v6Z-Vr-onb" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="Ynm-Mf-ETE"/>
                     <constraint firstItem="wzd-ZN-FJE" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="aWp-Lc-b1R"/>
-                    <constraint firstItem="wzd-ZN-FJE" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" constant="30" id="mFo-lh-oM3"/>
+                    <constraint firstItem="FEd-X4-KSF" firstAttribute="width" secondItem="v6Z-Vr-onb" secondAttribute="width" id="bwK-7t-E8L"/>
+                    <constraint firstItem="wzd-ZN-FJE" firstAttribute="leading" secondItem="v6Z-Vr-onb" secondAttribute="trailing" constant="20" id="h8M-sx-ZXf"/>
                 </constraints>
             </tableViewCellContentView>
             <connections>
+                <outlet property="checkBoxImage" destination="FEd-X4-KSF" id="N7g-cq-8Ip"/>
                 <outlet property="nameLabel" destination="wzd-ZN-FJE" id="o6Q-VY-PJ2"/>
+                <outlet property="toDoBtn" destination="v6Z-Vr-onb" id="wGb-Xv-i3P"/>
             </connections>
         </tableViewCell>
     </objects>

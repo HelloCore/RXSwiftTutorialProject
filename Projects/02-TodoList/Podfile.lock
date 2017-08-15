@@ -1,16 +1,19 @@
 PODS:
+  - ObjectMapper (2.2.7)
   - RxCocoa (3.4.1):
     - RxSwift (~> 3.4)
   - RxSwift (3.4.1)
 
 DEPENDENCIES:
+  - ObjectMapper (~> 2.2)
   - RxCocoa
   - RxSwift
 
 SPEC CHECKSUMS:
+  ObjectMapper: 65abcfd9a61cf7396cbd14a4fb22fddfcc46577e
   RxCocoa: a8a5f1d061d0043e28f56976829f31ce63e8eb09
   RxSwift: 656f8fbeca5bc372121a72d9ebdd3cd3bc0ffade
 
-PODFILE CHECKSUM: 8e61bf0756716193a141e4a8a7e084f684297873
+PODFILE CHECKSUM: 91d0d45f0dc195f14a2cc123ed519e2f722cd791
 
 COCOAPODS: 1.2.1
