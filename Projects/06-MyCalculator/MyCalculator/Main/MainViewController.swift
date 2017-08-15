@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import RxCocoa
+import RxSwift
 
 class MainViewController: UIViewController {
 	
@@ -14,8 +16,16 @@ class MainViewController: UIViewController {
 		return MainViewModel()
 	}()
 
+    @IBOutlet weak var resultLabel: UILabel!
+    
+    private let disposeBag = DisposeBag()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        viewModel.outputs.resultForDisplay.drive(resultLabel.rx.text).addDisposableTo(disposeBag)
+        
+        
 
         // Do any additional setup after loading the view.
     }
@@ -25,7 +35,18 @@ class MainViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
+    @IBAction func on1Tap(_ sender: Any) {
+        viewModel.inputs.onNumberBtnTap("1")
+    }
+    
+    @IBAction func on2Tap(_ sender: Any) {
+        viewModel.inputs.onNumberBtnTap("2")
+    }
 
+    @IBAction func on3Tap(_ sender: Any) {
+        viewModel.inputs.onNumberBtnTap("3")
+    }
+    
     /*
     // MARK: - Navigation
 
