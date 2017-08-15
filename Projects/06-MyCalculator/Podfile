@@ -8,4 +8,11 @@ target 'MyCalculator' do
   # Pods for MyCalculator
   pod 'RxSwift'
   pod 'RxCocoa'
+  
+  target 'MyCalculatorTests' do
+	  inherit! :search_paths
+	  
+	  pod 'Nimble'
+	  pod 'RxTest'
+  end
 end

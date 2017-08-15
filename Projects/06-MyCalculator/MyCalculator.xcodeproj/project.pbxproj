@@ -9,28 +9,54 @@
 /* Begin PBXBuildFile section */
 		8561CF141F42FC1900FC7E7A /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8561CF131F42FC1900FC7E7A /* MainViewController.swift */; };
 		8561CF161F42FC2400FC7E7A /* MainViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8561CF151F42FC2400FC7E7A /* MainViewModel.swift */; };
+		8561CF1E1F43482200FC7E7A /* MyCalculatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8561CF1D1F43482200FC7E7A /* MyCalculatorTests.swift */; };
 		85B0B81B1F42EFCC0040B83E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85B0B81A1F42EFCC0040B83E /* AppDelegate.swift */; };
 		85B0B8201F42EFCC0040B83E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 85B0B81E1F42EFCC0040B83E /* Main.storyboard */; };
 		85B0B8221F42EFCC0040B83E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 85B0B8211F42EFCC0040B83E /* Assets.xcassets */; };
 		85B0B8251F42EFCC0040B83E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 85B0B8231F42EFCC0040B83E /* LaunchScreen.storyboard */; };
+		B8310F476173698E629660E4 /* Pods_MyCalculatorTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BEA1E6BDB5ED61195EA6816E /* Pods_MyCalculatorTests.framework */; };
 		FDB01AA2739B3FFDE8D9A8F8 /* Pods_MyCalculator.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5D2DC18E943D5D7E4F83AA0C /* Pods_MyCalculator.framework */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		8561CF201F43482200FC7E7A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 85B0B80F1F42EFCC0040B83E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 85B0B8161F42EFCC0040B83E;
+			remoteInfo = MyCalculator;
+		};
+/* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		5D2DC18E943D5D7E4F83AA0C /* Pods_MyCalculator.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MyCalculator.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		8561CF131F42FC1900FC7E7A /* MainViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		8561CF151F42FC2400FC7E7A /* MainViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainViewModel.swift; sourceTree = "<group>"; };
+		8561CF1B1F43482200FC7E7A /* MyCalculatorTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MyCalculatorTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		8561CF1D1F43482200FC7E7A /* MyCalculatorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyCalculatorTests.swift; sourceTree = "<group>"; };
+		8561CF1F1F43482200FC7E7A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		85B0B8171F42EFCC0040B83E /* MyCalculator.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MyCalculator.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		85B0B81A1F42EFCC0040B83E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		85B0B81F1F42EFCC0040B83E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		85B0B8211F42EFCC0040B83E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		85B0B8241F42EFCC0040B83E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		85B0B8261F42EFCC0040B83E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		BD0FD9B37732CD4816C8236B /* Pods-MyCalculatorTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MyCalculatorTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-MyCalculatorTests/Pods-MyCalculatorTests.release.xcconfig"; sourceTree = "<group>"; };
+		BEA1E6BDB5ED61195EA6816E /* Pods_MyCalculatorTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MyCalculatorTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C33CA480DE75E2E2A96F8941 /* Pods-MyCalculator.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MyCalculator.debug.xcconfig"; path = "Pods/Target Support Files/Pods-MyCalculator/Pods-MyCalculator.debug.xcconfig"; sourceTree = "<group>"; };
+		DC5FC5D6044D01E21061F7E9 /* Pods-MyCalculatorTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MyCalculatorTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-MyCalculatorTests/Pods-MyCalculatorTests.debug.xcconfig"; sourceTree = "<group>"; };
 		F518559B333257E0EECAD473 /* Pods-MyCalculator.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MyCalculator.release.xcconfig"; path = "Pods/Target Support Files/Pods-MyCalculator/Pods-MyCalculator.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		8561CF181F43482200FC7E7A /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B8310F476173698E629660E4 /* Pods_MyCalculatorTests.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		85B0B8141F42EFCC0040B83E /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -47,6 +73,8 @@
 			children = (
 				C33CA480DE75E2E2A96F8941 /* Pods-MyCalculator.debug.xcconfig */,
 				F518559B333257E0EECAD473 /* Pods-MyCalculator.release.xcconfig */,
+				DC5FC5D6044D01E21061F7E9 /* Pods-MyCalculatorTests.debug.xcconfig */,
+				BD0FD9B37732CD4816C8236B /* Pods-MyCalculatorTests.release.xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
@@ -60,10 +88,20 @@
 			path = Main;
 			sourceTree = "<group>";
 		};
+		8561CF1C1F43482200FC7E7A /* MyCalculatorTests */ = {
+			isa = PBXGroup;
+			children = (
+				8561CF1D1F43482200FC7E7A /* MyCalculatorTests.swift */,
+				8561CF1F1F43482200FC7E7A /* Info.plist */,
+			);
+			path = MyCalculatorTests;
+			sourceTree = "<group>";
+		};
 		85B0B80E1F42EFCC0040B83E = {
 			isa = PBXGroup;
 			children = (
 				85B0B8191F42EFCC0040B83E /* MyCalculator */,
+				8561CF1C1F43482200FC7E7A /* MyCalculatorTests */,
 				85B0B8181F42EFCC0040B83E /* Products */,
 				79A45BAB32D0125FBEA79E90 /* Pods */,
 				CA8FAD5A390079449B1ECAEC /* Frameworks */,
@@ -74,6 +112,7 @@
 			isa = PBXGroup;
 			children = (
 				85B0B8171F42EFCC0040B83E /* MyCalculator.app */,
+				8561CF1B1F43482200FC7E7A /* MyCalculatorTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -95,6 +134,7 @@
 			isa = PBXGroup;
 			children = (
 				5D2DC18E943D5D7E4F83AA0C /* Pods_MyCalculator.framework */,
+				BEA1E6BDB5ED61195EA6816E /* Pods_MyCalculatorTests.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -102,6 +142,27 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		8561CF1A1F43482200FC7E7A /* MyCalculatorTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 8561CF221F43482200FC7E7A /* Build configuration list for PBXNativeTarget "MyCalculatorTests" */;
+			buildPhases = (
+				12B29EDCACE327E3D1C9BE04 /* [CP] Check Pods Manifest.lock */,
+				8561CF171F43482200FC7E7A /* Sources */,
+				8561CF181F43482200FC7E7A /* Frameworks */,
+				8561CF191F43482200FC7E7A /* Resources */,
+				A21EA3118FD815F232D89BAA /* [CP] Embed Pods Frameworks */,
+				C67A0C9CC68EE16209F03603 /* [CP] Copy Pods Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				8561CF211F43482200FC7E7A /* PBXTargetDependency */,
+			);
+			name = MyCalculatorTests;
+			productName = MyCalculatorTests;
+			productReference = 8561CF1B1F43482200FC7E7A /* MyCalculatorTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		85B0B8161F42EFCC0040B83E /* MyCalculator */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 85B0B8291F42EFCC0040B83E /* Build configuration list for PBXNativeTarget "MyCalculator" */;
@@ -132,6 +193,11 @@
 				LastUpgradeCheck = 0830;
 				ORGANIZATIONNAME = "AKKHARAWAT CHAYAPIWAT";
 				TargetAttributes = {
+					8561CF1A1F43482200FC7E7A = {
+						CreatedOnToolsVersion = 8.3.3;
+						ProvisioningStyle = Automatic;
+						TestTargetID = 85B0B8161F42EFCC0040B83E;
+					};
 					85B0B8161F42EFCC0040B83E = {
 						CreatedOnToolsVersion = 8.3.3;
 						ProvisioningStyle = Automatic;
@@ -152,11 +218,19 @@
 			projectRoot = "";
 			targets = (
 				85B0B8161F42EFCC0040B83E /* MyCalculator */,
+				8561CF1A1F43482200FC7E7A /* MyCalculatorTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		8561CF191F43482200FC7E7A /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		85B0B8151F42EFCC0040B83E /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -170,6 +244,21 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		12B29EDCACE327E3D1C9BE04 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
 		15F839054017819EAB154F17 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -215,9 +304,47 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
+		A21EA3118FD815F232D89BAA /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-MyCalculatorTests/Pods-MyCalculatorTests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		C67A0C9CC68EE16209F03603 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-MyCalculatorTests/Pods-MyCalculatorTests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		8561CF171F43482200FC7E7A /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8561CF1E1F43482200FC7E7A /* MyCalculatorTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		85B0B8131F42EFCC0040B83E /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -229,6 +356,14 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		8561CF211F43482200FC7E7A /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 85B0B8161F42EFCC0040B83E /* MyCalculator */;
+			targetProxy = 8561CF201F43482200FC7E7A /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		85B0B81E1F42EFCC0040B83E /* Main.storyboard */ = {
@@ -250,6 +385,34 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		8561CF231F43482200FC7E7A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = DC5FC5D6044D01E21061F7E9 /* Pods-MyCalculatorTests.debug.xcconfig */;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				INFOPLIST_FILE = MyCalculatorTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.github.helloCore.MyCalculatorTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/MyCalculator.app/MyCalculator";
+			};
+			name = Debug;
+		};
+		8561CF241F43482200FC7E7A /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = BD0FD9B37732CD4816C8236B /* Pods-MyCalculatorTests.release.xcconfig */;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				INFOPLIST_FILE = MyCalculatorTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.github.helloCore.MyCalculatorTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/MyCalculator.app/MyCalculator";
+			};
+			name = Release;
+		};
 		85B0B8271F42EFCC0040B83E /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -372,6 +535,14 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		8561CF221F43482200FC7E7A /* Build configuration list for PBXNativeTarget "MyCalculatorTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				8561CF231F43482200FC7E7A /* Debug */,
+				8561CF241F43482200FC7E7A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
 		85B0B8121F42EFCC0040B83E /* Build configuration list for PBXProject "MyCalculator" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
