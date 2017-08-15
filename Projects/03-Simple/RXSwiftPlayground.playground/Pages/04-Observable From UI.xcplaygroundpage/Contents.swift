@@ -102,5 +102,4 @@ let myVC = MyViewController()
 let (parent, _) = playgroundControllers(device: .phone4inch, orientation: .portrait, child: myVC)
 
 PlaygroundPage.current.liveView = parent
-
 //: [Next](@next)

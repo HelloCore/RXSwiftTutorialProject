@@ -132,13 +132,13 @@ provider.request(.getUsers(offset: 0)) { (result) in
 
 */
 
-let requestServiceTrigger = PublishSubject<Void>()
+let requestServiceTrigger = PublishSubject<Int>()
 
 let onServiceRequest = requestServiceTrigger
 	.do(onNext: { (_) in
 		increseExecCount()
 	})
-	.flatMap { (_) -> Observable<[GitHubUser]> in
+	.flatMapLatest { (value) -> Observable<Int> in
 		//let provider = RxMoyaProvider<GithubService>()
 		let provider = RxMoyaProvider<GithubService>(stubClosure: RxMoyaProvider.delayedStub(0.2))
 		
@@ -147,11 +147,12 @@ let onServiceRequest = requestServiceTrigger
 				.getUsers(offset: 0)
 			)
 			.mapArray(GitHubUser.self)
+            .map {_ in return value }
 		
 	}
 
 onServiceRequest.subscribe(onNext: { (response) in
-	print("RX Get User Count: [\(response.count)]")
+	print("RX Get User Count: [\(response)]")
 	popExecCount()
 }, onError: { (error) in
 	print("RX get Error: \(error.localizedDescription)")
@@ -159,11 +160,11 @@ onServiceRequest.subscribe(onNext: { (response) in
 })
 
 
-requestServiceTrigger.onNext(())
+requestServiceTrigger.onNext(0)
 
-requestServiceTrigger.onNext(())
+requestServiceTrigger.onNext(1)
 
-requestServiceTrigger.onNext(())
+requestServiceTrigger.onNext(2)
 
 /*:
 > สังเกตได้ว่า จะทำการ Call API ใหม่ทุกครั้งที่มีค่าใหม่มาที่ requestServiceTrigger

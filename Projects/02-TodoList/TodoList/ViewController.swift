@@ -21,7 +21,8 @@ class ViewController: UIViewController {
     @IBOutlet weak var cancelTaskBtn: UIButton!
     var listTodo = Variable<[TodoObject]>([])
 	let disposeBag = DisposeBag()
-	
+    var dataSource = Variable<[TodoModel]>([])
+    
 	override func viewDidLoad() {
 		super.viewDidLoad()
 //==================================================
@@ -87,12 +88,11 @@ class ViewController: UIViewController {
         
     }
 
+        
 	override func didReceiveMemoryWarning() {
 		super.didReceiveMemoryWarning()
 		// Dispose of any resources that can be recreated.
 	}
-
-
 }
 
 extension ViewController: UITableViewDataSource {
@@ -100,7 +100,6 @@ extension ViewController: UITableViewDataSource {
 	func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
 		return listTodo.value.count
     }
-	
 	
 	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "TodoCell", for: indexPath) as! TodoTableViewCell
@@ -136,3 +135,5 @@ extension ViewController: UITableViewDataSource {
 		return cell
 	}
 }
+
+
