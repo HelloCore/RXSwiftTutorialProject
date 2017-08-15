@@ -32,8 +32,8 @@ let conQueue = ConcurrentDispatchQueueScheduler(qos: DispatchQoS.background)
 let fObservable = pSubject
 	.asObservable()
 	.observeOn(conQueue)
-//	.flatMapLatest { (value) -> Observable<String> in
-	.flatMap { (value) -> Observable<String> in
+	.flatMapLatest { (value) -> Observable<String> in
+//	.flatMap { (value) -> Observable<String> in
 		return Observable
 			.create({ (observer) -> Disposable in
 				// จำลอง sync async call
