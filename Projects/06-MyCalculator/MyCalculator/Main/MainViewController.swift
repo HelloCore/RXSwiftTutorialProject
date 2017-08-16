@@ -46,6 +46,48 @@ class MainViewController: UIViewController {
     @IBAction func on3Tap(_ sender: Any) {
         viewModel.inputs.onNumberBtnTap("3")
     }
+    @IBAction func on4Tap(_ sender: Any) {
+        viewModel.inputs.onNumberBtnTap("4")
+    }
+    @IBAction func on5Tap(_ sender: Any) {
+        viewModel.inputs.onNumberBtnTap("5")
+    }
+    @IBAction func on6Tap(_ sender: Any) {
+        viewModel.inputs.onNumberBtnTap("6")
+    }
+    @IBAction func on7Tap(_ sender: Any) {
+        viewModel.inputs.onNumberBtnTap("7")
+    }
+    @IBAction func on8Tap(_ sender: Any) {
+        viewModel.inputs.onNumberBtnTap("8")
+    }
+    @IBAction func on9Tap(_ sender: Any) {
+        viewModel.inputs.onNumberBtnTap("9")
+    }
+    @IBAction func on0Tap(_ sender: Any) {
+        viewModel.inputs.onNumberBtnTap("0")
+    }
+    
+    @IBAction func onPlusTap(_ sender: Any) {
+        viewModel.inputs.onOperatorBtnTap(.plus)
+    }
+    @IBAction func onMinusTap(_ sender: Any) {
+        viewModel.inputs.onOperatorBtnTap(.minus)
+    }
+    @IBAction func onMutiplyTap(_ sender: Any) {
+        viewModel.inputs.onOperatorBtnTap(.mutiply)
+    }
+    @IBAction func onDivideTap(_ sender: Any) {
+        viewModel.inputs.onOperatorBtnTap(.divide)
+    }
+    @IBAction func onEqualTap(_ sender: Any) {
+        viewModel.inputs.onEqualBtnTap()
+    }
+    @IBAction func onClearTap(_ sender: Any) {
+        viewModel.inputs.onClearBtnTap()
+    }
+    
+    
     
     /*
     // MARK: - Navigation

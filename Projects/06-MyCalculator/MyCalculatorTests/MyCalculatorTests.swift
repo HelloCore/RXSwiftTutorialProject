@@ -42,7 +42,7 @@ class MyCalculatorTests: XCTestCase {
 	func testDefaultNumber() {
 		let resultObserver = scheduler.createObserver(String.self)
 		driveOnScheduler(scheduler) {
-			viewModel.outputs.result.drive(resultObserver).addDisposableTo(disposeBag)
+			viewModel.outputs.resultForDisplay.drive(resultObserver).addDisposableTo(disposeBag)
 		}
 		
 		scheduler.start()
@@ -54,7 +54,7 @@ class MyCalculatorTests: XCTestCase {
 	func test1NumberInput() {
 		let resultObserver = scheduler.createObserver(String.self)
 		driveOnScheduler(scheduler) { 
-			viewModel.outputs.result.drive(resultObserver).addDisposableTo(disposeBag)
+			viewModel.outputs.resultForDisplay.drive(resultObserver).addDisposableTo(disposeBag)
 			
 			viewModel.inputs.onNumberBtnTap("1")
 		}
@@ -68,7 +68,7 @@ class MyCalculatorTests: XCTestCase {
 	func test2NumberInput() {
 		let resultObserver = scheduler.createObserver(String.self)
 		driveOnScheduler(scheduler) {
-			viewModel.outputs.result.drive(resultObserver).addDisposableTo(disposeBag)
+			viewModel.outputs.resultForDisplay.drive(resultObserver).addDisposableTo(disposeBag)
 			
 			viewModel.inputs.onNumberBtnTap("1")
 			viewModel.inputs.onNumberBtnTap("2")
@@ -83,7 +83,7 @@ class MyCalculatorTests: XCTestCase {
 	func test10NumberInput() {
 		let resultObserver = scheduler.createObserver(String.self)
 		driveOnScheduler(scheduler) {
-			viewModel.outputs.result.drive(resultObserver).addDisposableTo(disposeBag)
+			viewModel.outputs.resultForDisplay.drive(resultObserver).addDisposableTo(disposeBag)
 			
 			viewModel.inputs.onNumberBtnTap("1")
 			viewModel.inputs.onNumberBtnTap("2")
@@ -106,7 +106,7 @@ class MyCalculatorTests: XCTestCase {
 	func testZero() {
 		let resultObserver = scheduler.createObserver(String.self)
 		driveOnScheduler(scheduler) {
-			viewModel.outputs.result.drive(resultObserver).addDisposableTo(disposeBag)
+			viewModel.outputs.resultForDisplay.drive(resultObserver).addDisposableTo(disposeBag)
 			
 			viewModel.inputs.onNumberBtnTap("0")
 		}
@@ -120,7 +120,7 @@ class MyCalculatorTests: XCTestCase {
 	func testStartWithZero() {
 		let resultObserver = scheduler.createObserver(String.self)
 		driveOnScheduler(scheduler) {
-			viewModel.outputs.result.drive(resultObserver).addDisposableTo(disposeBag)
+			viewModel.outputs.resultForDisplay.drive(resultObserver).addDisposableTo(disposeBag)
 			
 			viewModel.inputs.onNumberBtnTap("0")
 			viewModel.inputs.onNumberBtnTap("1")
@@ -131,6 +131,115 @@ class MyCalculatorTests: XCTestCase {
 		expect(resultObserver.events.count).to(equal(3))
 		expect(resultObserver.events.last?.value.element).to(equal("1"))
 	}
+//    plus
+//    minus
+//    mutiply
+//    divide
+    func testOperatorDivide() {
+        let resultObserver = scheduler.createObserver(String.self)
+        driveOnScheduler(scheduler) {
+            viewModel.outputs.resultForDisplay.drive(resultObserver).addDisposableTo(disposeBag)
+            viewModel.inputs.onNumberBtnTap("50")
+            viewModel.inputs.onOperatorBtnTap(.divide)
+            viewModel.inputs.onNumberBtnTap("0")
+            viewModel.inputs.onEqualBtnTap()
+        }
+        scheduler.start()
+        expect(resultObserver.events.last?.value.element).to(equal("0"))
+    }
+    func testOperatorMutiply() {
+        let resultObserver = scheduler.createObserver(String.self)
+        driveOnScheduler(scheduler) {
+            viewModel.outputs.resultForDisplay.drive(resultObserver).addDisposableTo(disposeBag)
+            viewModel.inputs.onNumberBtnTap("50")
+            viewModel.inputs.onOperatorBtnTap(.mutiply)
+            viewModel.inputs.onNumberBtnTap("5")
+            viewModel.inputs.onEqualBtnTap()
+        }
+        scheduler.start()
+        expect(resultObserver.events.last?.value.element).to(equal("250"))
+    }
+    func testOperatorMinus() {
+        let resultObserver = scheduler.createObserver(String.self)
+        driveOnScheduler(scheduler) {
+            viewModel.outputs.resultForDisplay.drive(resultObserver).addDisposableTo(disposeBag)
+            viewModel.inputs.onNumberBtnTap("50")
+            viewModel.inputs.onOperatorBtnTap(.minus)
+            viewModel.inputs.onNumberBtnTap("5")
+            viewModel.inputs.onEqualBtnTap()
+        }
+        scheduler.start()
+        expect(resultObserver.events.last?.value.element).to(equal("45"))
+    }
+    func testOperatorPlus() {
+        let resultObserver = scheduler.createObserver(String.self)
+        driveOnScheduler(scheduler) {
+            viewModel.outputs.resultForDisplay.drive(resultObserver).addDisposableTo(disposeBag)
+            viewModel.inputs.onNumberBtnTap("50")
+            viewModel.inputs.onOperatorBtnTap(.plus)
+            viewModel.inputs.onNumberBtnTap("5")
+            viewModel.inputs.onEqualBtnTap()
+        }
+        scheduler.start()
+        expect(resultObserver.events.last?.value.element).to(equal("55"))
+    }
+    func testNumberWithOperator(){
+        let resultObserver = scheduler.createObserver(String.self)
+        driveOnScheduler(scheduler) {
+            viewModel.outputs.resultForDisplay.drive(resultObserver).addDisposableTo(disposeBag)
+            viewModel.inputs.onNumberBtnTap("8")
+            viewModel.inputs.onOperatorBtnTap(.mutiply)
+        }
+        scheduler.start()
+        expect(resultObserver.events.last?.value.element).to(equal("0"))
+
+    }
+    func testBeforeTabEqul(){
+        let resultObserver = scheduler.createObserver(String.self)
+        driveOnScheduler(scheduler) {
+            viewModel.outputs.resultForDisplay.drive(resultObserver).addDisposableTo(disposeBag)
+            viewModel.inputs.onNumberBtnTap("50")
+            viewModel.inputs.onOperatorBtnTap(.mutiply)
+            viewModel.inputs.onNumberBtnTap("0")
+        }
+        scheduler.start()
+        expect(resultObserver.events.last?.value.element).to(equal("0"))
+        
+    }
+
+    func testOperatorTabAgain(){
+        let resultObserver = scheduler.createObserver(String.self)
+        driveOnScheduler(scheduler) {
+            viewModel.outputs.resultForDisplay.drive(resultObserver).addDisposableTo(disposeBag)
+            viewModel.inputs.onNumberBtnTap("50")
+//            viewModel.inputs.onOperatorBtnTap(.plus)
+//            viewModel.inputs.onNumberBtnTap("10")
+//            viewModel.inputs.onOperatorBtnTap(.minus)
+//            viewModel.inputs.onNumberBtnTap("9")
+//            viewModel.inputs.onOperatorBtnTap(.plus)
+//            viewModel.inputs.onNumberBtnTap("1")
+//            viewModel.inputs.onEqualBtnTap()
+
+
+
+        }
+        scheduler.start()
+        expect(resultObserver.events.last?.value.element).to(equal("52"))
+        
+    }
+
+    func testClear(){
+        let resultObserver = scheduler.createObserver(String.self)
+        driveOnScheduler(scheduler) {
+            viewModel.outputs.resultForDisplay.drive(resultObserver).addDisposableTo(disposeBag)
+            viewModel.inputs.onNumberBtnTap("8")
+            viewModel.inputs.onNumberBtnTap("8")
+            viewModel.inputs.onClearBtnTap()
+        }
+        scheduler.start()
+        expect(resultObserver.events.last?.value.element).to(equal("0"))
+        
+    }
 	
 	
 }

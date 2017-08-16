@@ -43,10 +43,12 @@ class MainViewModel: MainViewModelType, MainViewModelInputs, MainViewModelOutput
     
     private var currentResult = Variable<String>("0")
     
+    var operatorSelect = Variable<MyOperator>(.plus)
+    var number1:Int = 0
+    var number2:Int = 0
     let disposeBag = DisposeBag()
     
 	init() {
-        
         numberBtnTap
             .withLatestFrom(currentResult.asObservable()) { (numberFromBtn: $0, lastResult: $1) }
             .map { (obj) -> String in
@@ -58,16 +60,56 @@ class MainViewModel: MainViewModelType, MainViewModelInputs, MainViewModelOutput
             }
             .bind(to: currentResult)
             .addDisposableTo(disposeBag)
+        
+        clearBtnTap
+            .map { (_) -> String in
+                self.number1 = 0
+                self.number2 = 0
+                return "0"
+            }
+            .bind(to: currentResult)
+            .addDisposableTo(disposeBag)
+        
+        operatorBtnTap
+            .do(onNext: { (_) in
+                self.number1 = Int(self.currentResult.value)!
+                self.currentResult.value = "0"
+            })
+            .bind(to: operatorSelect)
+            .addDisposableTo(disposeBag)
+        
+        equalBtnTap
+            .do(onNext: { (_) in
+                self.number2 = Int(self.currentResult.value)!
+            })
+            .withLatestFrom(currentResult.asObservable())
+            .map{(obj) -> String in
+                var result:Int = 0
+                switch self.operatorSelect.value {
+                case .plus:
+                    result = Int(self.number1) + Int(self.number2)
+                    return "\(result)"
+                case .minus:
+                    result = Int(self.number1) - Int(self.number2)
+                    return "\(result)"
+                case .mutiply:
+                    result = Int(self.number1) * Int(self.number2)
+                    return "\(result)"
+                case .divide:
+                    if Int(self.number2) == 0{
+                        return "Error"
+                    }
+                    result = Int(self.number1) / Int(self.number2)
+                    return "\(result)"
+                }
+            }
+            .bind(to: currentResult)
+            .addDisposableTo(disposeBag)   
 	}
     
     private let operatorBtnTap = PublishSubject<MyOperator>()
     func onOperatorBtnTap(_ oper: MyOperator){
         operatorBtnTap.onNext(oper)
-    }
-    
-    private let numberBtnTap = PublishSubject<String>()
-    func onNumberBtnTap(_ number: String){
-        numberBtnTap.onNext(number)
     }
     
     private let clearBtnTap = PublishSubject<Void>()
