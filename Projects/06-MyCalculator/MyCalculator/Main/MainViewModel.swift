@@ -81,6 +81,11 @@ class MainViewModel: MainViewModelType, MainViewModelInputs, MainViewModelOutput
     }
     
 	
+	private let numberBtnTap = PublishSubject<String>()
+	func onNumberBtnTap(_ number: String){
+		numberBtnTap.onNext(number)
+	}
+	
 	var inputs: MainViewModelInputs { return self }
 	var outputs: MainViewModelOutputs { return self }
 }
