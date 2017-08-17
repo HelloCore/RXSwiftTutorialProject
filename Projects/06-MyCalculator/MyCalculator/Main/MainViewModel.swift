@@ -42,6 +42,8 @@ class MainViewModel: MainViewModelType, MainViewModelInputs, MainViewModelOutput
     }
     
     private var currentResult = Variable<String>("0")
+    private var firstResult: Double = 0.00
+    private var operatorSelected: String = ""
     
     let disposeBag = DisposeBag()
     
@@ -52,9 +54,58 @@ class MainViewModel: MainViewModelType, MainViewModelInputs, MainViewModelOutput
             .map { (obj) -> String in
                 if obj.lastResult == "0" {
                     return obj.numberFromBtn
-                }else{
+                } else {
                     return obj.lastResult.appending(obj.numberFromBtn)
                 }
+            }
+            .bind(to: currentResult)
+            .addDisposableTo(disposeBag)
+        
+        operatorBtnTap
+            .withLatestFrom(currentResult.asObservable()) { (operatorFromBtn: $0, lastResult: $1) }
+            .map { (obj) -> String in
+                self.firstResult = Double(obj.lastResult) ?? 0.00
+    
+                if obj.operatorFromBtn == MyOperator.plus {
+                    self.operatorSelected = "+"
+                } else if obj.operatorFromBtn == MyOperator.minus {
+                    self.operatorSelected = "-"
+                } else if obj.operatorFromBtn == MyOperator.mutiply {
+                    self.operatorSelected = "*"
+                } else if obj.operatorFromBtn == MyOperator.divide {
+                    self.operatorSelected = "/"
+                }
+                return "0"
+            }
+            .bind(to: currentResult)
+            .addDisposableTo(disposeBag)
+        
+        equalBtnTap
+            .withLatestFrom(currentResult.asObservable())
+            .map { [weak self] (obj) -> String in
+                let secondResult = Double(obj)
+                var totleResult: Double = 0.00
+                if self?.operatorSelected == "+" {
+                    totleResult = (self?.firstResult)! + secondResult!
+                } else if self?.operatorSelected == "-" {
+                    totleResult = (self?.firstResult)! - secondResult!
+                } else if self?.operatorSelected == "*" {
+                    totleResult = (self?.firstResult)! * secondResult!
+                } else if self?.operatorSelected == "/" {
+                    if secondResult != 0 {
+                        totleResult = (self?.firstResult)! / secondResult!
+                    } else {
+                        return "ERROR!"
+                    }
+                }
+                return String(format:"%.2f", totleResult)
+            }.bind(to: currentResult)
+            .addDisposableTo(disposeBag)
+        
+        clearBtnTap
+            .withLatestFrom(currentResult.asObservable())
+            .map { (_) -> String in
+            return "0"
             }
             .bind(to: currentResult)
             .addDisposableTo(disposeBag)
