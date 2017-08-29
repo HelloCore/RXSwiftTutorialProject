@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12120" systemVersion="16F73" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12120" systemVersion="16F73" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="Aq3-TY-lHJ">
     <device id="retina3_5" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -286,6 +286,116 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="136.80000000000001" y="137.18140929535232"/>
+        </scene>
+        <!--Check Bruckets View Controller-->
+        <scene sceneID="PCk-8h-tEc">
+            <objects>
+                <viewController id="vF4-id-Y6x" customClass="CheckBrucketsViewController" customModule="MyCalculator" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="vgF-BG-aNR"/>
+                        <viewControllerLayoutGuide type="bottom" id="S4t-zz-83Q"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="W7I-6K-UAK">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="pif-ZP-xDw">
+                                <rect key="frame" x="30" y="50" width="194" height="30"/>
+                                <nil key="textColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="f1z-4t-bdN">
+                                <rect key="frame" x="244" y="50" width="46" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="46" id="Gqx-FN-fxa"/>
+                                </constraints>
+                                <state key="normal" title="OK"/>
+                                <connections>
+                                    <action selector="onOkTapped:" destination="vF4-id-Y6x" eventType="touchUpInside" id="vQx-iP-1fG"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hVS-HZ-qKd">
+                                <rect key="frame" x="30" y="110" width="0.0" height="0.0"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="pif-ZP-xDw" firstAttribute="leading" secondItem="W7I-6K-UAK" secondAttribute="leading" constant="30" id="0eX-v0-Kcp"/>
+                            <constraint firstAttribute="trailing" secondItem="f1z-4t-bdN" secondAttribute="trailing" constant="30" id="9Wx-66-oV1"/>
+                            <constraint firstItem="f1z-4t-bdN" firstAttribute="bottom" secondItem="pif-ZP-xDw" secondAttribute="bottom" id="FQk-1j-j7R"/>
+                            <constraint firstItem="hVS-HZ-qKd" firstAttribute="leading" secondItem="pif-ZP-xDw" secondAttribute="leading" id="KyV-WQ-Bw1"/>
+                            <constraint firstItem="hVS-HZ-qKd" firstAttribute="top" secondItem="pif-ZP-xDw" secondAttribute="bottom" constant="30" id="Mlb-sD-iSR"/>
+                            <constraint firstItem="pif-ZP-xDw" firstAttribute="top" secondItem="W7I-6K-UAK" secondAttribute="topMargin" constant="50" id="iaL-DK-hjU"/>
+                            <constraint firstItem="f1z-4t-bdN" firstAttribute="leading" secondItem="pif-ZP-xDw" secondAttribute="trailing" constant="20" id="yhY-oP-Ogy"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="inputsTextField" destination="pif-ZP-xDw" id="Y6h-fA-qN9"/>
+                        <outlet property="okButton" destination="f1z-4t-bdN" id="Z3Y-vh-SNa"/>
+                        <outlet property="resultLabel" destination="hVS-HZ-qKd" id="1cX-d4-Dp0"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="RAf-T8-gcA" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="990" y="136"/>
+        </scene>
+        <!--TestF View Controller-->
+        <scene sceneID="lH9-7B-E6u">
+            <objects>
+                <viewController id="LUO-LB-A92" customClass="TestFViewController" customModule="MyCalculator" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="dK5-sx-hGd"/>
+                        <viewControllerLayoutGuide type="bottom" id="YOU-hq-Ggr"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="7x4-uU-OSy">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="jiY-SL-dFg" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1751" y="135"/>
+        </scene>
+        <!--Binary Search View Controller-->
+        <scene sceneID="3Vh-Qi-5gb">
+            <objects>
+                <viewController id="Uvk-py-hfL" customClass="BinarySearchViewController" customModule="MyCalculator" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="ARg-U2-Yxu"/>
+                        <viewControllerLayoutGuide type="bottom" id="TDx-rI-5yv"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="xNK-Jf-pCn">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="jao-ck-njT" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2555.625" y="135"/>
+        </scene>
+        <!--Double Sum View Controller-->
+        <scene sceneID="2WS-4G-PI9">
+            <objects>
+                <viewController id="Aq3-TY-lHJ" customClass="DoubleSumViewController" customModule="MyCalculator" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="qD2-4i-dj8"/>
+                        <viewControllerLayoutGuide type="bottom" id="Nds-ZH-sjt"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="cZN-TL-c1T">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="uls-hd-dcm" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3353" y="136"/>
         </scene>
     </scenes>
 </document>
