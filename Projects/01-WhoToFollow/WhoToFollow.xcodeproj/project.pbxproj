@@ -30,6 +30,7 @@
 		8551DD7A1EF90FDB008EE3D4 /* WhoToFollowTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8551DD791EF90FDB008EE3D4 /* WhoToFollowTests.swift */; };
 		8551DD851EF90FDB008EE3D4 /* WhoToFollowUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8551DD841EF90FDB008EE3D4 /* WhoToFollowUITests.swift */; };
 		85C6E8991EF9165F001FD040 /* GithubUserTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85C6E8981EF9165F001FD040 /* GithubUserTableViewCell.swift */; };
+		9D917EC01F5569BA005882E1 /* ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D917EBF1F5569BA005882E1 /* ViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -81,6 +82,7 @@
 		85C6E8981EF9165F001FD040 /* GithubUserTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GithubUserTableViewCell.swift; sourceTree = "<group>"; };
 		8FCD2B52985C0D9E4EDD78DE /* Pods_WhoToFollow.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_WhoToFollow.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		942502526A4C1E2309EF99B0 /* Pods-WhoToFollowTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WhoToFollowTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-WhoToFollowTests/Pods-WhoToFollowTests.debug.xcconfig"; sourceTree = "<group>"; };
+		9D917EBF1F5569BA005882E1 /* ViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewModel.swift; sourceTree = "<group>"; };
 		BB36682BA681F4214C5762A2 /* Pods-WhoToFollow.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WhoToFollow.release.xcconfig"; path = "Pods/Target Support Files/Pods-WhoToFollow/Pods-WhoToFollow.release.xcconfig"; sourceTree = "<group>"; };
 		D30C4DEA27995BBF08532EBA /* Pods-WhoToFollowUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WhoToFollowUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-WhoToFollowUITests/Pods-WhoToFollowUITests.release.xcconfig"; sourceTree = "<group>"; };
 		D9CBBCFDC94C0CBCBBF13E05 /* Pods-WhoToFollow.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WhoToFollow.debug.xcconfig"; path = "Pods/Target Support Files/Pods-WhoToFollow/Pods-WhoToFollow.debug.xcconfig"; sourceTree = "<group>"; };
@@ -188,6 +190,7 @@
 				850C64451EF9143C008B2735 /* Models */,
 				8551DD641EF90FDB008EE3D4 /* AppDelegate.swift */,
 				8551DD661EF90FDB008EE3D4 /* ViewController.swift */,
+				9D917EBF1F5569BA005882E1 /* ViewModel.swift */,
 				85C6E8981EF9165F001FD040 /* GithubUserTableViewCell.swift */,
 				8551DD681EF90FDB008EE3D4 /* Main.storyboard */,
 				8551DD6B1EF90FDB008EE3D4 /* Assets.xcassets */,
@@ -523,6 +526,7 @@
 				8551DD671EF90FDB008EE3D4 /* ViewController.swift in Sources */,
 				850C64511EF9143C008B2735 /* GithubUser.swift in Sources */,
 				850C64541EF91455008B2735 /* GithubService.swift in Sources */,
+				9D917EC01F5569BA005882E1 /* ViewModel.swift in Sources */,
 				8551DD651EF90FDB008EE3D4 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
