@@ -24,95 +24,43 @@ class ViewController: UIViewController {
     }()
 	private let disposeBag = DisposeBag()
 	
-	
-	var loadMoreTrigger = PublishSubject<Void>()
-	
-//	BehaviorSubject<ArrayList<GithubUser>> rowData
-//		= BehaviorSubject<ArrayList<GithubUser>>.create([]);
+    let refreshControl = UIRefreshControl()
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
-		
+        
+        tableView.addSubview(refreshControl)
+        
+        
+        refreshControl
+            .rx
+            .controlEvent(UIControlEvents.valueChanged)
+            .subscribe(onNext: { [weak self](_) in
+                self?.viewModel.input.onRefreshButtonTap()
+            })
+            .addDisposableTo(disposeBag)
+        
+        
+        viewModel
+            .output
+            .isLoading
+            .asDriver()
+            .drive(onNext: { (isLoading) in
+                self.tableView.reloadData()
+            })
+            .addDisposableTo(disposeBag)
+        
         viewModel
             .output
             .result
             .asDriver()
             .drive(onNext: { [weak self] (_) in
                 self?.tableView.reloadData()
-        })
-        .addDisposableTo(disposeBag)
-        
-      
-//		rowData
-//			.subscribe(onNext: { [weak self](_) in
-//				self?.tableView.reloadData()
-//			})
-//			.addDisposableTo(disposeBag)
-//		
-//		if let obj = GithubUser(JSON: ["login" : "hello"]) {
-//			rowData.onNext([obj])
-//		}
-//		
-//		
-//		let onRefreshBtn = refreshBtn
-//			.rx
-//			.tap
-//			.asObservable()
-//			.startWith(())
-//			.map { (_) -> [GithubUser] in
-//				return []
-//			}
-//		
-//		onRefreshBtn
-//			.bind(to: rowData)
-//			.addDisposableTo(disposeBag)
-//		
-//		Observable.merge([
-//				loadMoreTrigger.asObserver(),
-//				onRefreshBtn.map{ _ in return () }
-//			])
-//			.do(onNext: { (_) in
-//				SVProgressHUD.show()
-//			})
-//			.withLatestFrom(rowData.asObserver())
-//			.map({ (rowData) -> Int in
-//				return rowData.count
-//			})
-//			.flatMap { (rowCount) -> Observable<[GithubUser]> in
-//				let provider = RxMoyaProvider<GithubService>()
-//				return provider.request(
-//						GithubService.getUser(offset: rowCount)
-//					).mapArray(GithubUser.self)
-//			}.withLatestFrom(rowData.asObserver()) { (newData, oldData) -> [GithubUser] in
-//				var result = oldData
-//				result.append(contentsOf: newData)
-//				return result
-//			}
-//			.do(onNext: { (_) in
-//				SVProgressHUD.dismiss()
-//			})
-//			.bind(to: rowData)
-//			.addDisposableTo(disposeBag)
-//		
-		
-//		refreshBtn
-//			.rx
-//			.tap
-//			.asObservable()
-//			.map { (_) -> GithubUser in
-//				return GithubUser(JSON: ["login": "5555"])!
-//			}
-//			.withLatestFrom(rowData.asObservable(),
-//			                 resultSelector: { (obj1, obj2) -> [GithubUser] in
-//								var newUsers = obj2
-//								newUsers.append(obj1)
-//								return newUsers
-//							})
-//			.bind(to: rowData)
-//			.addDisposableTo(disposeBag)
-		
-		
+                self?.refreshControl.endRefreshing()
+            })
+            .addDisposableTo(disposeBag)
 	}
+    
     @IBAction func refreshBtnClicked(_ sender: Any) {
         viewModel.input.onRefreshButtonTap()
     }
@@ -121,26 +69,42 @@ class ViewController: UIViewController {
 extension ViewController: UITableViewDataSource {
 	
 	func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        if viewModel.output.isLoading.value == true {
+            return viewModel.output.result.value.count + 1
+        }
         return viewModel.output.result.value.count
 	}
 	
 	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-		let cell = tableView.dequeueReusableCell(withIdentifier: GithubUserTableViewCell.cellIdentifier,
-		                                         for: indexPath) as! GithubUserTableViewCell
-        let model = viewModel.output.result.value[indexPath.row]
-        cell.configureCellWithModel(model)
-		return cell
+        if indexPath.row == viewModel.output.result.value.count {
+            let cell = UITableViewCell(style: .default, reuseIdentifier: "LOADING_CELL")
+            let indicator = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.gray)
+            indicator.translatesAutoresizingMaskIntoConstraints = false
+            indicator.startAnimating()
+            cell.addSubview(indicator)
+            
+            indicator.topAnchor.constraint(equalTo: cell.topAnchor).isActive = true
+            indicator.bottomAnchor.constraint(equalTo: cell.bottomAnchor).isActive = true
+            indicator.trailingAnchor.constraint(equalTo: cell.trailingAnchor).isActive = true
+            indicator.leadingAnchor.constraint(equalTo: cell.leadingAnchor).isActive = true
+      
+            return cell
+        }else{
+            let cell = tableView.dequeueReusableCell(withIdentifier: GithubUserTableViewCell.cellIdentifier,
+                                                     for: indexPath) as! GithubUserTableViewCell
+            let model = viewModel.output.result.value[indexPath.row]
+            cell.configureCellWithModel(model)
+            return cell
+        }
 	}
 }
 
 extension ViewController: UITableViewDelegate {
 	
 	func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-//		if let rowDatXa = try? rowData.value(),
-//			indexPath.row == (rowDatXa.count - 1) {
-//			loadMoreTrigger.onNext(())
-//		}
-        
-        viewModel.input.onLoadMore(indexPath)
+        if indexPath.row == (viewModel.output.result.value.count - 1) {
+            viewModel.input.onLoadMore()
+        }
 	}
 }
+

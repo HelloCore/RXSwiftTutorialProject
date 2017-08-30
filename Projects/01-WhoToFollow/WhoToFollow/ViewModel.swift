@@ -11,16 +11,17 @@ import RxSwift
 import RxCocoa
 import Moya
 import Moya_ObjectMapper
+import Alamofire
+
 
 protocol ViewModelInputs {
     func onRefreshButtonTap()
-    func onLoadMore(_ indexPath: IndexPath)
-    
+    func onLoadMore()
 }
 
 protocol ViewModelOutputs {
     var result: Variable<[GithubUser]> { get }
-    
+    var isLoading: Variable<Bool> { get }
 }
 
 protocol ViewModelType {
@@ -29,61 +30,77 @@ protocol ViewModelType {
 }
 
 class ViewModel: ViewModelType, ViewModelInputs, ViewModelOutputs {
-
+    
     // output
     var result: Variable<[GithubUser]> {
         return allUsers
     }
-    private var allUsers = Variable<[GithubUser]>([])
     
+    var isLoading = Variable<Bool>(false)
+    
+    private var allUsers = Variable<[GithubUser]>([])
+    private var isNoMoreData = false
+
     let disposeBag = DisposeBag()
     
     init() {
         
-        if let obj = GithubUser(JSON: ["login" : "hello"]) {
-            allUsers.value.append(obj)
-        }
+        let offsetFromRefresh = refreshBtnTap
+            .startWith(())
+            .map { (_) -> [GithubUser] in
+                return []
+            }
+            .do(onNext: { [weak self] (obj) in
+                self?.allUsers.value = obj
+            })
+            .map { $0.count }
+        
+        let offsetFromLoadMore = loadMoreTrigger.withLatestFrom(self.allUsers.asObservable())
+            .map { $0.count }
+        
+        Observable.merge([ offsetFromRefresh, offsetFromLoadMore ])
+            .withLatestFrom(self.isLoading.asObservable(), resultSelector: { (offset: $0, isLoading: $1 ) })
+            .filter { $0.isLoading == false }
+            .do(onNext: { [weak self](_) in
+                self?.isLoading.value = true
+            })
+            .map { $0.offset }
+            .observeOn(SerialDispatchQueueScheduler(qos: DispatchQoS.background))
+            .flatMap { (userCount) -> Observable<[GithubUser]> in
+                let configuration = URLSessionConfiguration.default
+                configuration.httpAdditionalHeaders = Manager.defaultHTTPHeaders
+                configuration.requestCachePolicy = .reloadIgnoringCacheData
+                let provider = RxMoyaProvider<GithubService>(manager: SessionManager(configuration: configuration))
+                return provider
+                    .request(
+                        .getUser(offset: userCount)
+                    )
+                    .mapArray(GithubUser.self)
+            }
+            .withLatestFrom( allUsers.asObservable(), resultSelector:
+                { (newData, oldData) -> [GithubUser] in
+                    var result = oldData
+                    result.append(contentsOf: newData)
+                    return result
+            })
+            .observeOn(MainScheduler.instance)
+            .do(onNext: { [weak self](_) in
+                self?.isLoading.value = false
+            })
+            .bind(to: allUsers)
+            .addDisposableTo(disposeBag)
+        
         
     }
     
     private let refreshBtnTap = PublishSubject<Void>()
     func onRefreshButtonTap() {
-        refreshBtnTap
-            .asObservable()
-            .startWith(())
-            .map { (_) -> [GithubUser] in
-                return []
-        }
-        
-        Observable.merge([
-            loadMoreTrigger.asObserver(),
-            refreshBtnTap.map { _ in return () }
-            ])
-            .do(onNext: { (_) in
-                
-            })
-            .withLatestFrom(allUsers.asObservable())
-            .map { (rowData) -> Int in
-                return self.allUsers.value.count
-            }
-            .flatMap { (offset) -> Observable<[GithubUser]> in
-                let provider = RxMoyaProvider<GithubService>()
-                return provider.request(GithubService.getUser(offset: offset)).mapArray(GithubUser.self)
-                
-            }.withLatestFrom(allUsers.asObservable()) { (newUsers, oldUsers) -> [GithubUser] in
-                var result = oldUsers
-                result.append(contentsOf: newUsers)
-                return result
-        }
-        .bind(to: allUsers)
-        .addDisposableTo(disposeBag)
+        refreshBtnTap.onNext(())
     }
     
     private let loadMoreTrigger = PublishSubject<Void>()
-    func onLoadMore(_ indexPath: IndexPath) {
-        if indexPath.row == allUsers.value.count - 1 {
-            loadMoreTrigger.onNext(())
-        }
+    func onLoadMore() {
+        loadMoreTrigger.onNext(())
     }
     
     var input: ViewModelInputs { return self }
