@@ -212,13 +212,13 @@ class MyCalculatorTests: XCTestCase {
         driveOnScheduler(scheduler) {
             viewModel.outputs.resultForDisplay.drive(resultObserver).addDisposableTo(disposeBag)
             viewModel.inputs.onNumberBtnTap("50")
-//            viewModel.inputs.onOperatorBtnTap(.plus)
-//            viewModel.inputs.onNumberBtnTap("10")
-//            viewModel.inputs.onOperatorBtnTap(.minus)
-//            viewModel.inputs.onNumberBtnTap("9")
-//            viewModel.inputs.onOperatorBtnTap(.plus)
-//            viewModel.inputs.onNumberBtnTap("1")
-//            viewModel.inputs.onEqualBtnTap()
+            viewModel.inputs.onOperatorBtnTap(.plus)
+            viewModel.inputs.onNumberBtnTap("10")
+            viewModel.inputs.onOperatorBtnTap(.minus)
+            viewModel.inputs.onNumberBtnTap("9")
+            viewModel.inputs.onOperatorBtnTap(.plus)
+            viewModel.inputs.onNumberBtnTap("1")
+            viewModel.inputs.onEqualBtnTap()
 
 
 
@@ -240,6 +240,47 @@ class MyCalculatorTests: XCTestCase {
         expect(resultObserver.events.last?.value.element).to(equal("0"))
         
     }
-	
+
+    func testCheckBracketsTrue1 (){
+        let resultObserver = scheduler.createObserver(Bool.self)
+        driveOnScheduler(scheduler) {
+            viewModel.outputs.resultCheck.drive(resultObserver).addDisposableTo(disposeBag)
+            viewModel.inputs.onCheckBracketsBtnTap("{[(<>)]}")
+        }
+        scheduler.start()
+        expect(resultObserver.events.last?.value.element).to(equal(true))
+        
+    }
+    func testCheckBracketsTrue2 (){
+        let resultObserver = scheduler.createObserver(Bool.self)
+        driveOnScheduler(scheduler) {
+            viewModel.outputs.resultCheck.drive(resultObserver).addDisposableTo(disposeBag)
+            viewModel.inputs.onCheckBracketsBtnTap("{()}")
+        }
+        scheduler.start()
+        expect(resultObserver.events.last?.value.element).to(equal(true))
+        
+    }
+    func testCheckBracketsTrue3 (){
+        let resultObserver = scheduler.createObserver(Bool.self)
+        driveOnScheduler(scheduler) {
+            viewModel.outputs.resultCheck.drive(resultObserver).addDisposableTo(disposeBag)
+            viewModel.inputs.onCheckBracketsBtnTap("<{}>")
+        }
+        scheduler.start()
+        expect(resultObserver.events.last?.value.element).to(equal(true))
+        
+    }
+    func testCheckBracketsTrue4 (){
+        let resultObserver = scheduler.createObserver(Bool.self)
+        driveOnScheduler(scheduler) {
+            viewModel.outputs.resultCheck.drive(resultObserver).addDisposableTo(disposeBag)
+            viewModel.inputs.onCheckBracketsBtnTap("<[{}]>")
+        }
+        scheduler.start()
+        expect(resultObserver.events.last?.value.element).to(equal(true))
+        
+    }
+
 	
 }

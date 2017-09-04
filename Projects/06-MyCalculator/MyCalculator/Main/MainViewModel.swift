@@ -22,11 +22,13 @@ protocol MainViewModelInputs {
     func onNumberBtnTap(_ number: String)
     func onClearBtnTap()
     func onEqualBtnTap()
-    
+    func onCheckBracketsBtnTap(_ brackets: String)
 }
 
 protocol MainViewModelOutputs {
     var resultForDisplay: Driver<String> { get }
+    var resultCheck: Driver<Bool> { get }
+
 }
 
 protocol MainViewModelType {
@@ -40,9 +42,16 @@ class MainViewModel: MainViewModelType, MainViewModelInputs, MainViewModelOutput
     var resultForDisplay: Driver<String> {
         return currentResult.asDriver()
     }
-    
+    var resultCheck: Driver<Bool>{
+        return result.asDriver()
+    }
+    private var result = Variable<Bool>(false)
+
     private var currentResult = Variable<String>("0")
-    
+
+    var arrOpenBrackets:[String] = ["{","[","(","<"]
+    var arrCloseBrackets:[String] = ["}","]",")",">"]
+
     var operatorSelect = Variable<MyOperator>(.plus)
     var number1:Int = 0
     var number2:Int = 0
@@ -72,8 +81,13 @@ class MainViewModel: MainViewModelType, MainViewModelInputs, MainViewModelOutput
         
         operatorBtnTap
             .do(onNext: { (_) in
-                self.number1 = Int(self.currentResult.value)!
-                self.currentResult.value = "0"
+                if self.number2 == 0{
+                    self.number1 = Int(self.currentResult.value)!
+                    self.currentResult.value = "0"
+                }else{
+                    self.number1 = Int(self.currentResult.value)!
+                    self.currentResult.value = ""
+                }
             })
             .bind(to: operatorSelect)
             .addDisposableTo(disposeBag)
@@ -104,7 +118,23 @@ class MainViewModel: MainViewModelType, MainViewModelInputs, MainViewModelOutput
                 }
             }
             .bind(to: currentResult)
-            .addDisposableTo(disposeBag)   
+            .addDisposableTo(disposeBag)
+        
+        
+        bracketsBtnTap
+//            .withLatestFrom(result.asObservable()) { (numberFromBtn: $0, lastResult: $1) }
+//
+//        for char in str.characters {
+//            print("Found character: \(char)")
+//        }
+            .do(onNext: { (_) in
+                for char in self.result.value {
+                    print("Found character: \(char)")
+                }
+            })
+//        result
+        
+        
 	}
     
     private let operatorBtnTap = PublishSubject<MyOperator>()
@@ -127,6 +157,12 @@ class MainViewModel: MainViewModelType, MainViewModelInputs, MainViewModelOutput
 	func onNumberBtnTap(_ number: String){
 		numberBtnTap.onNext(number)
 	}
+    
+    private let bracketsBtnTap = PublishSubject<String>()
+    func onCheckBracketsBtnTap(_ brackets: String){
+        bracketsBtnTap.onNext(brackets)
+    }
+    
 	
 	var inputs: MainViewModelInputs { return self }
 	var outputs: MainViewModelOutputs { return self }
