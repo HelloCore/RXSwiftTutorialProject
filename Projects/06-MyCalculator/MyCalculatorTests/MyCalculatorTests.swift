@@ -53,13 +53,14 @@ class MyCalculatorTests: XCTestCase {
 	
 	func test1NumberInput() {
 		let resultObserver = scheduler.createObserver(String.self)
-		driveOnScheduler(scheduler) { 
-			viewModel.outputs.result.drive(resultObserver).addDisposableTo(disposeBag)
-			
+		
+		viewModel.outputs.result.drive(resultObserver).addDisposableTo(disposeBag)
+		
+//		scheduler.start()
+		driveOnScheduler(scheduler) {
 			viewModel.inputs.onNumberBtnTap("1")
 		}
 		
-		scheduler.start()
 		
 		expect(resultObserver.events.count).to(equal(2))
 		expect(resultObserver.events.last?.value.element).to(equal("1"))
@@ -130,6 +131,66 @@ class MyCalculatorTests: XCTestCase {
 		
 		expect(resultObserver.events.count).to(equal(3))
 		expect(resultObserver.events.last?.value.element).to(equal("1"))
+	}
+	
+	
+	func testPlus() {
+		let resultObserver = scheduler.createObserver(String.self)
+		driveOnScheduler(scheduler) {
+			viewModel.outputs.result.drive(resultObserver).addDisposableTo(disposeBag)
+			
+			viewModel.inputs.onNumberBtnTap("1")
+			viewModel.inputs.onOperatorBtnTap(.plus)
+			viewModel.inputs.onNumberBtnTap("1")
+			viewModel.inputs.onOperatorBtnTap(.plus)
+			
+		}
+		
+		scheduler.start()
+		
+		expect(resultObserver.events.last?.value.element).to(equal("2"))
+		
+	}
+	
+	func testPlusPlus() {
+		let resultObserver = scheduler.createObserver(String.self)
+		driveOnScheduler(scheduler) {
+			viewModel.outputs.result.drive(resultObserver).addDisposableTo(disposeBag)
+			
+			viewModel.inputs.onNumberBtnTap("1")
+			viewModel.inputs.onOperatorBtnTap(.plus)
+			viewModel.inputs.onNumberBtnTap("1")
+			viewModel.inputs.onOperatorBtnTap(.plus)
+			viewModel.inputs.onNumberBtnTap("1")
+			viewModel.inputs.onOperatorBtnTap(.plus)
+			
+		}
+		
+		scheduler.start()
+		
+		expect(resultObserver.events.last?.value.element).to(equal("3"))
+		
+	}
+	
+	func testPlusEqual() {
+		let resultObserver = scheduler.createObserver(String.self)
+		driveOnScheduler(scheduler) {
+			viewModel.outputs.result.drive(resultObserver).addDisposableTo(disposeBag)
+			
+			viewModel.inputs.onNumberBtnTap("1")
+			viewModel.inputs.onOperatorBtnTap(.plus)
+			viewModel.inputs.onNumberBtnTap("1")
+//			viewModel.inputs.onOperatorBtnTap(.equal)
+			viewModel.inputs.onOperatorBtnTap(.plus)
+			viewModel.inputs.onNumberBtnTap("2")
+			viewModel.inputs.onOperatorBtnTap(.plus)
+			
+		}
+		
+		scheduler.start()
+		
+		expect(resultObserver.events.last?.value.element).to(equal("4"))
+		
 	}
 	
 	

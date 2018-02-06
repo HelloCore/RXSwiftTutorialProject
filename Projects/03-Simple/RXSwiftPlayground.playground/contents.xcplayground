@@ -10,5 +10,6 @@
         <page name='07-Quiz'/>
         <page name='08-FlatMap-FlatMapLatest'/>
         <page name='09-Moya-ObjectMapper-RX'/>
+        <page name='Test'/>
     </pages>
 </playground>

@@ -21,6 +21,18 @@ class ViewController: UIViewController {
 	
 	@IBOutlet var tapGesture: UITapGestureRecognizer!
 	
+	
+	@IBOutlet weak var mainSwitch: UISwitch!
+	@IBOutlet weak var mainLabel: UILabel!
+	
+	@IBOutlet weak var leftLabel: UILabel!
+	
+	@IBOutlet weak var rightLabel: UILabel!
+	
+	@IBOutlet weak var rightButton: UIButton!
+
+	@IBOutlet weak var leftButton: UIButton!
+	
 	let disposeBag = DisposeBag()
 	
 	private lazy var viewModel: ViewModel = {
@@ -33,6 +45,45 @@ class ViewController: UIViewController {
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
+		
+		let leftLabelVar = Variable<String>("0")
+		leftButton.rx.tap.asDriver()
+			.scan(0) { (oldValue, _) -> Int in
+				return oldValue + 1
+			}
+			.map { "\($0)" }
+			.do(onNext: { [leftLabel](str) in
+				leftLabel?.text = str
+			})
+			.drive(leftLabelVar)
+			.addDisposableTo(disposeBag)
+		
+		
+		let rightLabelVar = Variable<String>("0")
+		rightButton.rx.tap.asDriver()
+			.scan(0) { (oldValue, _) -> Int in
+				return oldValue + 1
+			}
+			.map { "\($0)" }
+			.do(onNext: { [rightLabel](str) in
+				rightLabel?.text = str
+			})
+			.drive(rightLabelVar)
+			.addDisposableTo(disposeBag)
+		
+		mainSwitch.rx.isOn
+			.flatMapLatest({ (isOn) -> Observable<String> in
+				if isOn {
+					return rightLabelVar.asObservable().replay(1).ifEmpty(switchTo: <#T##Observable<String>#>)
+				}else{
+					return leftLabelVar.asObservable().replay(1)
+				}
+			})
+			.asDriver(onErrorJustReturn: "XXXX")
+			.drive(mainLabel.rx.text)
+			.addDisposableTo(disposeBag)
+		
+		
 		
 		viewModel
 			.outputs
