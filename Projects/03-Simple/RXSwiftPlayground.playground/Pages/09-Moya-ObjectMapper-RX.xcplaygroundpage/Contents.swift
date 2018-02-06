@@ -50,10 +50,6 @@ extension GithubService: TargetType {
 		}
 	}
 	
-	// parameterEncoding มีให้เลือก URLEnconding และ JSONEncoding
-	var parameterEncoding: ParameterEncoding {
-		return URLEncoding.default
-	}
 	
 	// sampleData สำหรับ stub (หรือ mockup)
 	var sampleData: Data {
@@ -65,9 +61,18 @@ extension GithubService: TargetType {
 		}
 	}
 	
-	// ประเภท Task มี request, download, upload
+	var headers: [String: String]? {
+		return nil
+	}
+	
+	// ประเภทของ Task มี
 	var task: Task {
-		return .request
+		switch self {
+		case .getUsers(let offset):
+			return .requestParameters(parameters: ["since": offset], encoding: URLEncoding.default)
+		case .getRepos(_):
+			return .requestPlain
+		}
 	}
 }
 
@@ -138,11 +143,9 @@ let onServiceRequest = requestServiceTrigger
 	.do(onNext: { (_) in
 		increseExecCount()
 	})
-	.flatMap { (_) -> Observable<[GitHubUser]> in
-		//let provider = RxMoyaProvider<GithubService>()
-		let provider = RxMoyaProvider<GithubService>(stubClosure: RxMoyaProvider.delayedStub(0.2))
+	.flatMap { [provider](_) -> Single<[GitHubUser]> in
 		
-		return provider
+		return provider.rx
 			.request(
 				.getUsers(offset: 0)
 			)

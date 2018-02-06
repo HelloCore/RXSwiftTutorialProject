@@ -6,8 +6,8 @@ target 'SimpleRXSwiftPlayground' do
   use_frameworks!
 
   # Pods for SimpleRXSwiftPlayground
-  pod 'RxSwift'
-  pod 'RxCocoa'
+  pod 'RxSwift', '~> 4'
+  pod 'RxCocoa', '~> 4'
   pod 'Moya'
   pod 'Moya-ObjectMapper/RxSwift'
 end
