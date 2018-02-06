@@ -14,6 +14,7 @@ enum LoginService {
 }
 
 extension LoginService: TargetType {
+	
 	var baseURL: URL {
 		// Dummy URL
 		return URL(string: AppConstants.URL.baseURL)!
@@ -27,14 +28,6 @@ extension LoginService: TargetType {
 		return .post
 	}
 	
-	var parameters: [String: Any]? {
-		return nil
-	}
-	
-	var parameterEncoding: ParameterEncoding {
-		return URLEncoding.default
-	}
-	
 	var sampleData: Data {
 		switch self {
 		case let .login(username, password):
@@ -45,8 +38,12 @@ extension LoginService: TargetType {
 			}
 		}
 	}
+
+	var headers: [String : String]? {
+		return nil
+	}
 	
 	var task: Task {
-		return .request
+		return .requestPlain
 	}
 }

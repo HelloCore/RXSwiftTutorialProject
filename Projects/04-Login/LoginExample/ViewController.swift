@@ -21,6 +21,7 @@ class ViewController: UIViewController {
 	
 	@IBOutlet var tapGesture: UITapGestureRecognizer!
 	
+	let provider = MoyaProvider<LoginService>(stubClosure: MoyaProvider.delayedStub(1))
 	let disposeBag = DisposeBag()
 	
 	override func viewDidLoad() {
@@ -33,14 +34,14 @@ class ViewController: UIViewController {
 			.rx.text.orEmpty
 			.asObservable()
 			.map { (username) -> Bool in
-				return username.characters.count >= 4
+				return username.count >= 4
 			}
 		
 		let isPasswordValid = passwordTextField
 			.rx.text.orEmpty
 			.asObservable()
 			.map { (password) -> Bool in
-				return password.characters.count >= 4
+				return password.count >= 4
 			}
 		
 		Observable
@@ -50,7 +51,7 @@ class ViewController: UIViewController {
 			) { (usrValid, pwdValid) -> Bool in
 				return usrValid && pwdValid
 			}.bind(to: loginButton.rx.isEnabled)
-			.addDisposableTo(disposeBag)
+			.disposed(by: disposeBag)
 		
 		let loginService = Observable
 			.combineLatest(
@@ -65,11 +66,12 @@ class ViewController: UIViewController {
 			.do(onNext: { (_) in
 				SVProgressHUD.show()
 			})
-			.flatMapLatest { (service) -> Observable<LoginResponse> in
-				let provider = RxMoyaProvider<LoginService>(stubClosure: RxMoyaProvider.delayedStub(1))
+			.flatMapLatest { [provider] (service) -> Observable<LoginResponse> in
 				return provider
+					.rx
 					.request(service)
 					.mapObject(LoginResponse.self)
+					.asObservable()
 			}
 			.catchError({ (error) -> Observable<LoginResponse> in
 				return Observable.just(LoginResponse(JSON: error.json)!)
@@ -88,14 +90,14 @@ class ViewController: UIViewController {
 				alertController.addAction(UIAlertAction(title: "OK", style: .cancel))
 				self?.present(alertController, animated: true)
 			})
-			.addDisposableTo(disposeBag)
+			.disposed(by: disposeBag)
 		
 		
 		tapGesture.rx.event
 			.subscribe(onNext: { [weak self] (_) in
 				self?.view.endEditing(true)
 			})
-			.addDisposableTo(disposeBag)
+			.disposed(by: disposeBag)
 		
 		
 	}
