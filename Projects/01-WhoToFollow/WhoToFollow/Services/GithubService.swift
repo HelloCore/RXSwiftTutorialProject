@@ -17,6 +17,10 @@ enum GithubService {
 
 extension GithubService: TargetType {
 	
+	var headers: [String : String]? {
+		return nil
+	}
+	
 	/// The target's base `URL`.
 	var baseURL: URL {
 		return URL(string: "https://api.github.com/")!
@@ -32,19 +36,6 @@ extension GithubService: TargetType {
 		return .get
 	}
 	
-	/// The parameters to be encoded in the request.
-	var parameters: [String: Any]? {
-		switch self {
-		case .getUser(let offset):
-			return [ "since": offset ]
-		}
-	}
-	
-	/// The method used for parameter encoding.
-	var parameterEncoding: ParameterEncoding {
-		return URLEncoding.default
-	}
-	
 	/// Provides stub data for use in testing.
 	var sampleData: Data {
 		return Data()
@@ -52,7 +43,10 @@ extension GithubService: TargetType {
 	
 	/// The type of HTTP task to be performed.
 	var task: Task {
-		return .request
+		switch self {
+		case .getUser(let offset):
+			return .requestParameters(parameters: ["since": offset], encoding: URLEncoding.default)
+		}
 	}
 
 }

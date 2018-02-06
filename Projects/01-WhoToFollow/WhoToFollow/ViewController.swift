@@ -24,9 +24,7 @@ class ViewController: UIViewController {
 	var rowData = BehaviorSubject<[GithubUser]>(value: [])
 	
 	var loadMoreTrigger = PublishSubject<Void>()
-	
-//	BehaviorSubject<ArrayList<GithubUser>> rowData
-//		= BehaviorSubject<ArrayList<GithubUser>>.create([]);
+	let provider = MoyaProvider<GithubService>()
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
@@ -35,12 +33,7 @@ class ViewController: UIViewController {
 			.subscribe(onNext: { [weak self](_) in
 				self?.tableView.reloadData()
 			})
-			.addDisposableTo(disposeBag)
-		
-		if let obj = GithubUser(JSON: ["login" : "hello"]) {
-			rowData.onNext([obj])
-		}
-		
+			.disposed(by: disposeBag)
 		
 		let onRefreshBtn = refreshBtn
 			.rx
@@ -53,7 +46,7 @@ class ViewController: UIViewController {
 		
 		onRefreshBtn
 			.bind(to: rowData)
-			.addDisposableTo(disposeBag)
+			.disposed(by: disposeBag)
 		
 		Observable.merge([
 				loadMoreTrigger.asObserver(),
@@ -66,12 +59,17 @@ class ViewController: UIViewController {
 			.map({ (rowData) -> Int in
 				return rowData.count
 			})
-			.flatMap { (rowCount) -> Observable<[GithubUser]> in
-				let provider = RxMoyaProvider<GithubService>()
-				return provider.request(
+			.flatMap { [provider] (rowCount) -> Single<[GithubUser]> in
+				return provider.rx
+					.request(
 						GithubService.getUser(offset: rowCount)
-					).mapArray(GithubUser.self)
-			}.withLatestFrom(rowData.asObserver()) { (newData, oldData) -> [GithubUser] in
+					)
+					.mapArray(GithubUser.self)
+					.catchError { _ in
+						return Single.just([])
+					}
+			}
+			.withLatestFrom(rowData.asObserver()) { (newData, oldData) -> [GithubUser] in
 				var result = oldData
 				result.append(contentsOf: newData)
 				return result
@@ -79,27 +77,10 @@ class ViewController: UIViewController {
 			.do(onNext: { (_) in
 				SVProgressHUD.dismiss()
 			})
+			.observeOn(MainScheduler.instance)
+			.subscribeOn(MainScheduler.instance)
 			.bind(to: rowData)
-			.addDisposableTo(disposeBag)
-		
-		
-//		refreshBtn
-//			.rx
-//			.tap
-//			.asObservable()
-//			.map { (_) -> GithubUser in
-//				return GithubUser(JSON: ["login": "5555"])!
-//			}
-//			.withLatestFrom(rowData.asObservable(),
-//			                 resultSelector: { (obj1, obj2) -> [GithubUser] in
-//								var newUsers = obj2
-//								newUsers.append(obj1)
-//								return newUsers
-//							})
-//			.bind(to: rowData)
-//			.addDisposableTo(disposeBag)
-		
-		
+			.disposed(by: disposeBag)
 	}
 }
 
