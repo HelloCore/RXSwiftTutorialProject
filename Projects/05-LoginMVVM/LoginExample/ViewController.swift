@@ -21,69 +21,38 @@ class ViewController: UIViewController {
 	
 	@IBOutlet var tapGesture: UITapGestureRecognizer!
 	
-	
-	@IBOutlet weak var mainSwitch: UISwitch!
-	@IBOutlet weak var mainLabel: UILabel!
-	
-	@IBOutlet weak var leftLabel: UILabel!
-	
-	@IBOutlet weak var rightLabel: UILabel!
-	
-	@IBOutlet weak var rightButton: UIButton!
-
-	@IBOutlet weak var leftButton: UIButton!
-	
 	let disposeBag = DisposeBag()
 	
-	private lazy var viewModel: ViewModel = {
-		let input = ViewModelInputs(usernameText: self.usernameTextField.rx.text.orEmpty.asObservable(),
-		                            passwordText: self.passwordTextField.rx.text.orEmpty.asObservable(),
-		                            loginBtnTap: self.loginButton.rx.tap.asObservable(),
-		                            tapGesture: self.tapGesture.rx.event.asObservable().map { _ in return () })
-		return ViewModel(input: input)
-	}()
+	private var viewModel: ViewModelType!
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
+		viewModel = ViewModel()
 		
-		let leftLabelVar = Variable<String>("0")
-		leftButton.rx.tap.asDriver()
-			.scan(0) { (oldValue, _) -> Int in
-				return oldValue + 1
-			}
-			.map { "\($0)" }
-			.do(onNext: { [leftLabel](str) in
-				leftLabel?.text = str
-			})
-			.drive(leftLabelVar)
-			.addDisposableTo(disposeBag)
+		self.bindInputs()
+		self.bindOutputs()
+	}
+	
+	private func bindInputs() {
+		usernameTextField.rx.text.orEmpty
+			.bind(onNext: viewModel.inputs.onUsernameTextChange)
+			.disposed(by: disposeBag)
 		
+		passwordTextField.rx.text.orEmpty
+			.bind(onNext: viewModel.inputs.onPasswordTextChange)
+			.disposed(by: disposeBag)
 		
-		let rightLabelVar = Variable<String>("0")
-		rightButton.rx.tap.asDriver()
-			.scan(0) { (oldValue, _) -> Int in
-				return oldValue + 1
-			}
-			.map { "\($0)" }
-			.do(onNext: { [rightLabel](str) in
-				rightLabel?.text = str
-			})
-			.drive(rightLabelVar)
-			.addDisposableTo(disposeBag)
+		loginButton.rx.tap.asObservable()
+			.bind(onNext: viewModel.inputs.onLoginBtnTap)
+			.disposed(by: disposeBag)
 		
-		mainSwitch.rx.isOn
-			.flatMapLatest({ (isOn) -> Observable<String> in
-				if isOn {
-					return rightLabelVar.asObservable().replay(1).ifEmpty(switchTo: <#T##Observable<String>#>)
-				}else{
-					return leftLabelVar.asObservable().replay(1)
-				}
-			})
-			.asDriver(onErrorJustReturn: "XXXX")
-			.drive(mainLabel.rx.text)
-			.addDisposableTo(disposeBag)
-		
-		
+		tapGesture.rx.event.asObservable()
+			.map { _ in ()}
+			.bind(onNext: viewModel.inputs.onTapGestureTap)
+			.disposed(by: disposeBag)
+	}
+	
+	private func bindOutputs() {
 		
 		viewModel
 			.outputs
@@ -96,15 +65,15 @@ class ViewController: UIViewController {
 					SVProgressHUD.popActivity()
 				}
 			})
-			.addDisposableTo(disposeBag)
+			.disposed(by: disposeBag)
 		
 		viewModel
 			.outputs
 			.isLoginEnabled
 			.subscribeOn(MainScheduler.instance)
 			.bind(to: loginButton.rx.isEnabled)
-			.addDisposableTo(disposeBag)
-	
+			.disposed(by: disposeBag)
+		
 		
 		viewModel
 			.outputs
@@ -115,7 +84,7 @@ class ViewController: UIViewController {
 				alertController.addAction(UIAlertAction(title: "OK", style: .cancel))
 				self?.present(alertController, animated: true)
 			})
-			.addDisposableTo(disposeBag)
+			.disposed(by: disposeBag)
 		
 		viewModel
 			.outputs
@@ -126,7 +95,7 @@ class ViewController: UIViewController {
 				alertController.addAction(UIAlertAction(title: "OK", style: .cancel))
 				self?.present(alertController, animated: true)
 			})
-			.addDisposableTo(disposeBag)
+			.disposed(by: disposeBag)
 		
 		viewModel
 			.outputs
@@ -135,9 +104,7 @@ class ViewController: UIViewController {
 			.subscribe(onNext: { [weak self] (_) in
 				self?.view.endEditing(true)
 			})
-			.addDisposableTo(disposeBag)
-		
-		
+			.disposed(by: disposeBag)
 	}
 
 	override func didReceiveMemoryWarning() {

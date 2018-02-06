@@ -14,6 +14,10 @@ enum LoginService {
 }
 
 extension LoginService: TargetType {
+	var headers: [String : String]? {
+		return nil
+	}
+	
 	var baseURL: URL {
 		// Dummy URL
 		return URL(string: AppConstants.URL.baseURL)!
@@ -25,14 +29,6 @@ extension LoginService: TargetType {
 	
 	var method: Moya.Method {
 		return .post
-	}
-	
-	var parameters: [String: Any]? {
-		return nil
-	}
-	
-	var parameterEncoding: ParameterEncoding {
-		return URLEncoding.default
 	}
 	
 	var sampleData: Data {
@@ -47,6 +43,6 @@ extension LoginService: TargetType {
 	}
 	
 	var task: Task {
-		return .request
+		return .requestPlain
 	}
 }

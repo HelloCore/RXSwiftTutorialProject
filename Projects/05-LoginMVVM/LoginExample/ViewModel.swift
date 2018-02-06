@@ -11,11 +11,11 @@ import RxSwift
 import Moya
 import Moya_ObjectMapper
 
-struct ViewModelInputs {
-	let usernameText: Observable<String>
-	let passwordText: Observable<String>
-	let loginBtnTap: Observable<Void>
-	let tapGesture: Observable<Void>
+protocol ViewModelInputs {
+	func onUsernameTextChange(_ username: String)
+	func onPasswordTextChange(_ password: String)
+	func onLoginBtnTap()
+	func onTapGestureTap()
 }
 
 protocol ViewModelOutputs {
@@ -28,9 +28,12 @@ protocol ViewModelOutputs {
 	var onRequestEndEditing: Observable<Void>! { get }
 }
 
-class ViewModel: ViewModelOutputs {
-	
-	var outputs: ViewModelOutputs { return self }
+protocol ViewModelType {
+	var inputs: ViewModelInputs { get }
+	var outputs: ViewModelOutputs { get }
+}
+
+class ViewModel: ViewModelType, ViewModelOutputs, ViewModelInputs {
 	
 	var isLoading: Observable<Bool>! {
 		return loading.asObservable()
@@ -45,17 +48,19 @@ class ViewModel: ViewModelOutputs {
 	
 	private var loading = PublishSubject<Bool>()
 	
-	init(input: ViewModelInputs) {
+	private let provider = MoyaProvider<LoginService>(stubClosure: MoyaProvider.delayedStub(1))
+	
+	init() {
 		
-		let isUsernameValid = input.usernameText
+		let isUsernameValid = _onUsernameTextChange
 			.map { (username) -> Bool in
-				return username.characters.count >= 4
-		}
+				return username.count >= 4
+			}
 		
-		let isPasswordValid = input.passwordText
+		let isPasswordValid = _onPasswordTextChange
 			.map { (password) -> Bool in
-				return password.characters.count >= 4
-		}
+				return password.count >= 4
+			}
 		
 		isLoginEnabled = Observable
 			.combineLatest(
@@ -67,22 +72,22 @@ class ViewModel: ViewModelOutputs {
 		
 		let loginService = Observable
 			.combineLatest(
-				input.usernameText,
-				input.passwordText
+				_onUsernameTextChange,
+				_onPasswordTextChange
 			) { (usr, pwd) -> LoginService in
 				return LoginService.login(username: usr, password: pwd)
 			}
 		
-		let loginResponse = input.loginBtnTap
+		let loginResponse = _onLoginBtnTap
 			.withLatestFrom(loginService)
 			.do(onNext: { [weak self] (_) in
 				self?.loading.onNext(true)
 			})
-			.flatMapLatest { (service) -> Observable<LoginResponse> in
-				let provider = RxMoyaProvider<LoginService>(stubClosure: RxMoyaProvider.delayedStub(1))
-				return provider
+			.flatMapLatest { [provider](service) -> Observable<LoginResponse> in
+				return provider.rx
 					.request(service)
 					.mapObject(LoginResponse.self)
+					.asObservable()
 			}
 			.catchError({ (error) -> Observable<LoginResponse> in
 				return Observable.just(LoginResponse(JSON: error.json)!)
@@ -90,7 +95,7 @@ class ViewModel: ViewModelOutputs {
 			.do(onNext: { (_) in
 				self.loading.onNext(false)
 			})
-			.shareReplayLatestWhileConnected()
+			.share(replay: 1, scope: SubjectLifetimeScope.whileConnected)
 		
 		onLoginSuccess = loginResponse.filter { $0.responseStatus == .success }
 		onRequestShowAlertMessage = loginResponse
@@ -98,6 +103,29 @@ class ViewModel: ViewModelOutputs {
 			.map { $0.message ?? "Unknown Error" }
 		
 		
-		onRequestEndEditing = input.tapGesture				
+		onRequestEndEditing = _onTapGestureTap
 	}
+	
+	private let _onUsernameTextChange = BehaviorSubject<String>(value: "")
+	func onUsernameTextChange(_ username: String) {
+		_onUsernameTextChange.onNext(username)
+	}
+	
+	private let _onPasswordTextChange = BehaviorSubject<String>(value: "")
+	func onPasswordTextChange(_ password: String) {
+		_onPasswordTextChange.onNext(password)
+	}
+	
+	private let _onLoginBtnTap = PublishSubject<Void>()
+	func onLoginBtnTap() {
+		_onLoginBtnTap.onNext(())
+	}
+	
+	private let _onTapGestureTap = PublishSubject<Void>()
+	func onTapGestureTap() {
+		_onTapGestureTap.onNext(())
+	}
+	
+	var inputs: ViewModelInputs { return self }
+	var outputs: ViewModelOutputs { return self }
 }
