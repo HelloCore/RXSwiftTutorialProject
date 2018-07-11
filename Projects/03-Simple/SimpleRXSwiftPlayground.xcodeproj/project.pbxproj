@@ -127,7 +127,6 @@
 				85ACEB8A1EFB7105008A604D /* Frameworks */,
 				85ACEB8B1EFB7105008A604D /* Resources */,
 				07D836C3E9415FB9F0089254 /* [CP] Embed Pods Frameworks */,
-				09C36EC88F7B1ECD18F4C03A /* [CP] Copy Pods Resources */,
 				85ADF3BA1EFB736600C034C6 /* Embed Frameworks */,
 			);
 			buildRules = (
@@ -215,21 +214,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-SimpleRXSwiftPlayground/Pods-SimpleRXSwiftPlayground-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		09C36EC88F7B1ECD18F4C03A /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-SimpleRXSwiftPlayground/Pods-SimpleRXSwiftPlayground-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		D136E4BF27700B4BB97B8358 /* [CP] Check Pods Manifest.lock */ = {

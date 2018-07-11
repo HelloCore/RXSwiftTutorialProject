@@ -128,13 +128,14 @@ print("-----------[Example of ReplaySubject]------------\n")
 let rSubject = ReplaySubject<Int>.create(bufferSize: 3)
 //let rSubject = ReplaySubject<Int>.createUnbounded()
 
+
 rSubject.onNext(0)
 rSubject.onNext(1)
 rSubject.onNext(2)
 
 let rSubscribe1 = rSubject.subscribe(onNext: { (value) in
-		print("rSubscribe1 onNext [\(value)]")
-	})
+        print("rSubscribe1 onNext [\(value)]")
+    })
 
 rSubject.onNext(3)
 
